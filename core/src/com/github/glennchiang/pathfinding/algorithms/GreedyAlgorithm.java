@@ -2,7 +2,7 @@ package com.github.glennchiang.pathfinding.algorithms;
 
 import java.util.Set;
 
-public class GreedyPathfinder extends PathfindingAlgorithm<GreedyNode> {
+public class GreedyAlgorithm extends PathfindingAlgorithm<GreedyNode> {
     @Override
     protected GreedyNode createNode(int row, int col) {
         return new GreedyNode(row, col);

@@ -42,9 +42,9 @@ public class Pathfinding extends ApplicationAdapter {
         int gridHeight = 400;
         visualGrid = new VisualGrid((SCREEN_WIDTH - gridWidth) / 2, (SCREEN_HEIGHT - gridHeight) / 2, gridWidth, gridHeight, grid, shapeRenderer);
 
-        Pathfinder aStar = new AStarPathfinder();
-        Pathfinder greedy = new GreedyPathfinder();
-        Pathfinder dijkstra = new DijkstraPathfinder();
+        Pathfinder aStar = new AStarAlgorithm();
+        Pathfinder greedy = new GreedyAlgorithm();
+        Pathfinder dijkstra = new DijkstraAlgorithm();
 
         Pathfinder[] algorithms = new Pathfinder[]{ aStar, greedy, dijkstra };
 

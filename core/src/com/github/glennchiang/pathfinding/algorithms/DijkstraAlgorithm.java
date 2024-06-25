@@ -2,7 +2,7 @@ package com.github.glennchiang.pathfinding.algorithms;
 
 import java.util.Set;
 
-public class DijkstraPathfinder extends PathfindingAlgorithm<DijkstraNode> {
+public class DijkstraAlgorithm extends PathfindingAlgorithm<DijkstraNode> {
     @Override
     protected DijkstraNode createNode(int row, int col) {
         return new DijkstraNode(row, col);

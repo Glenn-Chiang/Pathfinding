@@ -45,13 +45,16 @@ public abstract class PathfindingAlgorithm<TNode extends Node> implements Pathfi
         TNode startNode = nodeGraph[startRow][startCol];
         openNode(startNode);
 
+        // Records all steps taken to find path
+        AlgorithmSolution solution = new AlgorithmSolution();
+
         while (!openNodes.isEmpty()) {
             TNode currentNode = selectBestNode(openNodes);
             closeNode(currentNode);
 
             // If we have reached the target, stop
             if (currentNode == targetNode ) {
-                saveState(getPath(currentNode));
+                solution.addStep(saveStep(getPath(currentNode)));
                 return;
             }
 
@@ -64,7 +67,8 @@ public abstract class PathfindingAlgorithm<TNode extends Node> implements Pathfi
                 exploreNeighbor(currentNode, neighbor);
             }
 
-            saveState(getPath(currentNode));
+            // Update the solution with each step taken
+            solution.addStep(saveStep(getPath(currentNode)));
         }
     }
 
@@ -123,7 +127,7 @@ public abstract class PathfindingAlgorithm<TNode extends Node> implements Pathfi
         return recursePath(node.getParent(), path);
     }
 
-    private void saveState(List<Node> currentPath) {
-
+    private AlgorithmStep saveStep(List<Node> currentPath) {
+        return new AlgorithmStep(currentPath, openNodes, closedNodes);
     }
 }

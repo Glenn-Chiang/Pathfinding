@@ -2,7 +2,7 @@ package com.github.glennchiang.pathfinding.algorithms;
 
 import java.util.*;
 
-public class AStarPathfinder extends PathfindingAlgorithm<AStarNode> {
+public class AStarAlgorithm extends PathfindingAlgorithm<AStarNode> {
     @Override
     protected AStarNode createNode(int row, int col) {
         return new AStarNode(row, col);
