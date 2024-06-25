@@ -7,13 +7,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.github.glennchiang.pathfinding.algorithms.AStarPathfinder;
-import com.github.glennchiang.pathfinding.algorithms.DijkstraPathfinder;
-import com.github.glennchiang.pathfinding.algorithms.GreedyPathfinder;
-import com.github.glennchiang.pathfinding.algorithms.Pathfinder;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.github.glennchiang.pathfinding.algorithms.*;
 
 public class Pathfinding extends ApplicationAdapter {
     public final static int SCREEN_WIDTH = 800;

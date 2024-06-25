@@ -1,14 +1,22 @@
 package com.github.glennchiang.pathfinding.algorithms;
 
-import com.github.glennchiang.pathfinding.*;
-
 import java.util.*;
 
-public class AStarPathfinder extends Pathfinder {
+public class AStarPathfinder extends PathfindingAlgorithm<AStarNode> {
     @Override
-    protected void exploreNeighbor(Node currentNode, Node neighbor) {
+    protected AStarNode createNode(int row, int col) {
+        return new AStarNode(row, col);
+    }
+
+    @Override
+    protected AStarNode[][] createNodeGraph(int rows, int cols) {
+        return new AStarNode[rows][cols];
+    }
+
+    @Override
+    protected void exploreNeighbor(AStarNode currentNode, AStarNode neighbor) {
     // Distance between neighbor and current node
-        int distanceFromCurrent = distanceMetric.getDistance(currentNode.row, currentNode.col, neighbor.row, neighbor.col);
+        int distanceFromCurrent = distanceMetric.getDistance(currentNode.getRow(), currentNode.getCol(), neighbor.getRow(), neighbor.getCol());
         // gCost of neighbor is set to gCost of current node added to distance between neighbor and current node
         int gCost = currentNode.gCost + distanceFromCurrent;
 
@@ -18,14 +26,14 @@ public class AStarPathfinder extends Pathfinder {
         if (!isOpen(neighbor) || gCost < neighbor.gCost) {
             neighbor.gCost = gCost;
             neighbor.hCost = calculateHCost(neighbor);
-            neighbor.parent = currentNode;
+            neighbor.setParent(currentNode);
             openNode(neighbor);
         }
     }
 
     @Override
-    protected Node selectBestNode(Set<Node> nodes) {
-        Optional<Node> bestNode = nodes.stream().min((nodeA, nodeB) -> {
+    protected AStarNode selectBestNode(Set<AStarNode> nodes) {
+        Optional<AStarNode> bestNode = nodes.stream().min((nodeA, nodeB) -> {
             // Select node with lower f cost
             int fCostComparison = Integer.compare(nodeA.fCost(), nodeB.fCost());
             if (fCostComparison != 0) {
@@ -39,7 +47,7 @@ public class AStarPathfinder extends Pathfinder {
     }
 
     // Heuristic distance between given node and target node
-    private int calculateHCost(Node node) {
+    private int calculateHCost(AStarNode node) {
         return distanceMetric.getDistance(node.row, node.col, targetRow, targetCol);
     }
 

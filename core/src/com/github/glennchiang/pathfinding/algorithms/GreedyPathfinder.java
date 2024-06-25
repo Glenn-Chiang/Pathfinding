@@ -1,20 +1,25 @@
 package com.github.glennchiang.pathfinding.algorithms;
 
-import com.github.glennchiang.pathfinding.Grid;
-import com.github.glennchiang.pathfinding.Node;
-import com.github.glennchiang.pathfinding.PathVisualizer;
-
 import java.util.Set;
 
-public class GreedyPathfinder extends Pathfinder {
+public class GreedyPathfinder extends PathfindingAlgorithm<GreedyNode> {
+    @Override
+    protected GreedyNode createNode(int row, int col) {
+        return new GreedyNode(row, col);
+    }
 
     @Override
-    protected Node selectBestNode(Set<Node> nodes) {
+    protected GreedyNode[][] createNodeGraph(int rows, int cols) {
+        return new GreedyNode[rows][cols];
+    }
+
+    @Override
+    protected GreedyNode selectBestNode(Set<GreedyNode> nodes) {
         return null;
     }
 
     @Override
-    protected void exploreNeighbor(Node currentNode, Node neighbor) {
+    protected void exploreNeighbor(GreedyNode currentNode, GreedyNode neighbor) {
 
     }
 }
