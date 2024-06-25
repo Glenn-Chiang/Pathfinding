@@ -7,7 +7,13 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.github.glennchiang.pathfinding.algorithms.AStarPathfinder;
+import com.github.glennchiang.pathfinding.algorithms.DijkstraPathfinder;
+import com.github.glennchiang.pathfinding.algorithms.GreedyPathfinder;
 import com.github.glennchiang.pathfinding.algorithms.Pathfinder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Pathfinding extends ApplicationAdapter {
     public final static int SCREEN_WIDTH = 800;
@@ -41,6 +47,17 @@ public class Pathfinding extends ApplicationAdapter {
         int gridWidth = 640;
         int gridHeight = 400;
         visualGrid = new VisualGrid((SCREEN_WIDTH - gridWidth) / 2, (SCREEN_HEIGHT - gridHeight) / 2, gridWidth, gridHeight, grid, shapeRenderer);
+
+        Pathfinder aStar = new AStarPathfinder();
+        Pathfinder greedy = new GreedyPathfinder();
+        Pathfinder dijkstra = new DijkstraPathfinder();
+
+        Pathfinder[] algorithms = new Pathfinder[]{ aStar, greedy, dijkstra };
+
+        for (Pathfinder algorithm: algorithms) {
+            algorithm.findPath(grid);
+        }
+
     }
 
     @Override
