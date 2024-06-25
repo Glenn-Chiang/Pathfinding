@@ -6,21 +6,13 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import java.awt.*;
 
 public class VisualGrid {
-    private ShapeRenderer renderer;
+    private final ShapeRenderer renderer;
     private final Grid grid;
-
-    private final Rectangle background;
     private final Rectangle[][] cells;
 
     public VisualGrid(int x, int y, int width, int height, Grid grid, ShapeRenderer renderer) {
         this.grid = grid;
         this.renderer = renderer;
-
-        background = new Rectangle();
-        background.x = x;
-        background.y = y;
-        background.width = width;
-        background.height = height;
 
         cells = new Rectangle[grid.numRows][grid.numCols];
         int cellWidth = width / grid.numCols;
@@ -39,12 +31,6 @@ public class VisualGrid {
     }
 
     public void render() {
-        // Draw background of grid
-        renderer.begin(ShapeRenderer.ShapeType.Filled);
-        renderer.setColor(Color.WHITE);
-        renderer.rect(background.x, background.y, background.width, background.height);
-        renderer.end();
-
         // Draw cells
         for (int row = 0; row < grid.numRows; row++) {
             for (int col = 0; col < grid.numCols; col++) {
@@ -56,13 +42,27 @@ public class VisualGrid {
                 renderer.rect(cell.x, cell.y, cell.width, cell.height);
                 renderer.end();
 
-                // Mark obstacles with color
-                if (grid.isObstacle(row, col)) {
-                    renderer.begin(ShapeRenderer.ShapeType.Filled);
-                    renderer.setColor(Color.valueOf("#21618C"));
-                    renderer.rect(cell.x, cell.y, cell.width, cell.height);
-                    renderer.end();
+                CellType cellType = grid.getCell(row, col);
+                Color color;
+                renderer.begin(ShapeRenderer.ShapeType.Filled);
+                switch (cellType) {
+                    case START:
+                        color = Color.valueOf("#58D68D");
+                        break;
+                    case TARGET:
+                        color = Color.valueOf("#E74C3C");
+                        break;
+                    case OBSTACLE:
+                        color = Color.valueOf("#21618C");
+                        break;
+                    case EMPTY:
+                    default:
+                        color = Color.WHITE;
+                        break;
                 }
+                renderer.setColor(color);
+                renderer.rect(cell.x, cell.y, cell.width - 1, cell.height - 1);
+                renderer.end();
             }
         }
     }
