@@ -7,6 +7,11 @@ public class Grid {
     public final int numCols;
     private CellType[][] grid;
 
+    private int startRow;
+    private int startCol;
+    private int targetRow;
+    private int targetCol;
+
     public Grid(int num_rows, int num_cols) {
         this.numRows = num_rows;
         this.numCols = num_cols;
@@ -18,12 +23,29 @@ public class Grid {
         }
     }
 
+    public int getStartRow() {
+        return startRow;
+    }
+    public int getStartCol() {
+        return startCol;
+    }
+    public int getTargetRow() {
+        return targetRow;
+    }
+    public int getTargetCol() {
+        return targetCol;
+    }
+
     public void setStart(int row, int col) {
         grid[row][col] = CellType.START;
+        startRow = row;
+        startCol = col;
     }
 
     public void setTarget(int row, int col) {
         grid[row][col] = CellType.TARGET;
+        targetRow = row;
+        targetCol = col;
     }
 
     public void setObstacle(int row, int col) {
