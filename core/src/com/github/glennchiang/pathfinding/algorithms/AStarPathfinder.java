@@ -6,7 +6,7 @@ import java.util.*;
 
 public class AStarPathfinder extends Pathfinder {
     @Override
-    protected void exploreNeighbor(Node neighbor) {
+    protected void exploreNeighbor(Node currentNode, Node neighbor) {
     // Distance between neighbor and current node
         int distanceFromCurrent = distanceMetric.getDistance(currentNode.row, currentNode.col, neighbor.row, neighbor.col);
         // gCost of neighbor is set to gCost of current node added to distance between neighbor and current node
