@@ -1,6 +1,7 @@
 package com.github.glennchiang.pathfinding.algorithms;
 
 import com.github.glennchiang.pathfinding.CellType;
+import com.github.glennchiang.pathfinding.DistanceMetric;
 import com.github.glennchiang.pathfinding.Grid;
 import com.github.glennchiang.pathfinding.Node;
 
@@ -20,8 +21,11 @@ public class AStarSolution {
     private Set<Node> openNodes = new HashSet<>(); // Nodes that we are interested to explore
     private Set<Node> closedNodes = new HashSet<>(); // Nodes that we are no longer interested in exploring
 
-    public AStarSolution(Grid grid) {
+    private DistanceMetric distanceMetric; // Determines how distance is measured
+
+    public AStarSolution(Grid grid, DistanceMetric distanceMetric) {
         this.terrainGrid = grid;
+        this.distanceMetric = distanceMetric;
 
         startRow = grid.getStartRow();
         startCol = grid.getStartCol();
@@ -36,13 +40,13 @@ public class AStarSolution {
         }
     }
 
-    private int getDistance(int rowA, int colA, int rowB, int colB) {
-        return (int) (10 * Math.sqrt(Math.pow(rowA - rowB, 2) + Math.pow(colA - colB, 2)));
-    }
-
     // Heuristic distance between given node and target node
     private int calculateHCost(Node node) {
-        return (int) (10 * Math.sqrt(Math.pow(node.row - targetRow, 2) + Math.pow(node.col - targetCol, 2)));
+        return distanceMetric.getDistance(node.row, node.col, targetRow, targetCol);
+    }
+
+    private boolean inBounds(int row, int col) {
+        return row >= 0 && row < terrainGrid.numRows && col >= 0 && col < terrainGrid.numCols;
     }
 
     // Check whether given position is within grid bounds and is not an obstacle
@@ -55,9 +59,17 @@ public class AStarSolution {
         return node.row == targetRow && node.col == targetCol;
     }
 
+    // Get neighboring nodes of given node
+    // Distance metric affects which nodes are considered neighbors
     private List<Node> getNeighbors(Node node) {
         List<Node> neighbors = new ArrayList<>();
-
+        for (int[] dir: distanceMetric.directions) {
+            int row = node.row + dir[0];
+            int col = node.col + dir[1];
+            if (inBounds(row, col)) {
+                neighbors.add(nodeGrid[row][col]);
+            }
+        }
         return neighbors;
     }
 
@@ -99,7 +111,7 @@ public class AStarSolution {
                 }
 
                 // Distance between neighbor and current node
-                int distanceFromCurrent = getDistance(currentNode.row, currentNode.col, neighbor.row, neighbor.col);
+                int distanceFromCurrent = distanceMetric.getDistance(currentNode.row, currentNode.col, neighbor.row, neighbor.col);
                 // gCost of neighbor is set to gCost of current node added to distance between neighbor and current node
                 int gCost = currentNode.gCost + distanceFromCurrent;
 
