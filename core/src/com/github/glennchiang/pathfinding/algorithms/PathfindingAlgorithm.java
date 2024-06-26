@@ -17,12 +17,14 @@ public abstract class PathfindingAlgorithm<TNode extends Node> implements Pathfi
     protected abstract TNode[][] createNodeGraph(int rows, int cols);
     protected abstract TNode createNode(int row, int col);
 
-    @Override
-    public Set<TNode> getOpenNodes() {
+    public Set<Node> getOpenNodes() {
         return Collections.unmodifiableSet(openNodes);
     }
+    public Set<Node> getClosedNodes() {
+        return Collections.unmodifiableSet(closedNodes);
+    }
 
-    public final void findPath(Grid grid) {
+    public final AlgorithmSolution findPath(Grid grid) {
         // Clear any state from previous solution
         openNodes.clear();
         closedNodes.clear();
@@ -55,7 +57,7 @@ public abstract class PathfindingAlgorithm<TNode extends Node> implements Pathfi
             // If we have reached the target, stop
             if (currentNode == targetNode ) {
                 solution.addStep(saveStep(getPath(currentNode)));
-                return;
+                break;
             }
 
             // Explore neighbors
@@ -70,6 +72,8 @@ public abstract class PathfindingAlgorithm<TNode extends Node> implements Pathfi
             // Update the solution with each step taken
             solution.addStep(saveStep(getPath(currentNode)));
         }
+
+        return solution;
     }
 
     // Subclasses may perform additional operations on visited neighbors
@@ -128,6 +132,6 @@ public abstract class PathfindingAlgorithm<TNode extends Node> implements Pathfi
     }
 
     private AlgorithmStep saveStep(List<Node> currentPath) {
-        return new AlgorithmStep(currentPath, openNodes, closedNodes);
+        return new AlgorithmStep(currentPath, getOpenNodes(), getClosedNodes());
     }
 }
