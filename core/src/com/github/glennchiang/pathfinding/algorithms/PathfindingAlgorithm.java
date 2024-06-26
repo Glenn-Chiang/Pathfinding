@@ -17,13 +17,6 @@ public abstract class PathfindingAlgorithm<TNode extends Node> implements Pathfi
     protected abstract TNode[][] createNodeGraph(int rows, int cols);
     protected abstract TNode createNode(int row, int col);
 
-    public Set<Node> getOpenNodes() {
-        return Collections.unmodifiableSet(openNodes);
-    }
-    public Set<Node> getClosedNodes() {
-        return Collections.unmodifiableSet(closedNodes);
-    }
-
     public final AlgorithmSolution findPath(Grid grid) {
         // Clear any state from previous solution
         openNodes.clear();
@@ -132,6 +125,9 @@ public abstract class PathfindingAlgorithm<TNode extends Node> implements Pathfi
     }
 
     private AlgorithmStep saveStep(List<Node> currentPath) {
-        return new AlgorithmStep(currentPath, getOpenNodes(), getClosedNodes());
+        // Copy the node sets instead of passing by reference
+        Set<Node> openNodes = new HashSet<>(this.openNodes);
+        Set<Node> closedNodes = new HashSet<>(this.closedNodes);
+        return new AlgorithmStep(currentPath, openNodes, closedNodes);
     }
 }

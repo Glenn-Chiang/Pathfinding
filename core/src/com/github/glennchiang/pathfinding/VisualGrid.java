@@ -52,13 +52,13 @@ public class VisualGrid {
                 renderer.begin(ShapeRenderer.ShapeType.Filled);
                 switch (cellType) {
                     case START:
-                        color = Color.valueOf("#58D68D");
+                        color = Color.GREEN;
                         break;
                     case TARGET:
-                        color = Color.valueOf("#E74C3C");
+                        color = Color.RED;
                         break;
                     case OBSTACLE:
-                        color = Color.valueOf("#21618C");
+                        color = Color.valueOf("#01579B");
                         break;
                     case EMPTY:
                     default:
@@ -77,21 +77,24 @@ public class VisualGrid {
     public void renderStep(AlgorithmStep algorithmStep) {
         // Mark open nodes
         for (Node node: algorithmStep.openNodes) {
-            markNode(node, Color.SKY);
+            markNode(node, Color.valueOf("#4FC3F7"));
         }
 
         // Mark closed nodes
         for (Node node: algorithmStep.closedNodes) {
-            markNode(node, Color.LIGHT_GRAY);
+            markNode(node, Color.valueOf("#03A9F4"));
         }
 
         // Mark current path
         for (Node node: algorithmStep.currentPath) {
-            markNode(node, Color.GREEN);
+            markNode(node, Color.GOLD);
         }
     }
-
     private void markNode(Node node, Color color) {
+        if (grid.getCell(node.getRow(), node.getCol()) != CellType.EMPTY) {
+            return;
+        }
+
         renderer.begin(ShapeRenderer.ShapeType.Filled);
         renderer.setColor(color);
         Rectangle cell = cells[node.getRow()][node.getCol()];
