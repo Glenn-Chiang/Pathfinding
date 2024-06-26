@@ -20,6 +20,7 @@ public class Pathfinding extends ApplicationAdapter {
 
     private Grid grid;
     private VisualGrid visualGrid;
+    private AlgorithmVisualizer visualizer;
 
     @Override
     public void create() {
@@ -42,18 +43,19 @@ public class Pathfinding extends ApplicationAdapter {
         int gridHeight = 400;
         visualGrid = new VisualGrid((SCREEN_WIDTH - gridWidth) / 2, (SCREEN_HEIGHT - gridHeight) / 2, gridWidth, gridHeight, grid, shapeRenderer);
 
-        AlgorithmVisualizer visualizer = new AlgorithmVisualizer();
+        visualizer = new AlgorithmVisualizer(visualGrid);
 
         Pathfinder aStar = new AStarAlgorithm();
         Pathfinder greedy = new GreedyAlgorithm();
         Pathfinder dijkstra = new DijkstraAlgorithm();
         Pathfinder[] algorithms = new Pathfinder[]{ aStar, greedy, dijkstra };
 
-        for (Pathfinder algorithm: algorithms) {
-            AlgorithmSolution solution = algorithm.findPath(grid);
-            visualizer.visualize(solution);
-        }
-
+//        for (Pathfinder algorithm: algorithms) {
+//            AlgorithmSolution solution = algorithm.findPath(grid);
+//            visualizer.visualize(solution);
+//        }
+        AlgorithmSolution solution = aStar.findPath(grid);
+        visualizer.visualize(solution);
     }
 
     @Override
@@ -61,7 +63,8 @@ public class Pathfinding extends ApplicationAdapter {
         ScreenUtils.clear(0, 0, 0, 1);
         camera.update();
 
-		visualGrid.render();
+		visualGrid.renderGrid();
+        visualizer.update();
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();

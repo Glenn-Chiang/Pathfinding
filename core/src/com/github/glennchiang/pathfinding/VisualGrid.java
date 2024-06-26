@@ -2,6 +2,8 @@ package com.github.glennchiang.pathfinding;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.github.glennchiang.pathfinding.algorithms.AlgorithmStep;
+import com.github.glennchiang.pathfinding.algorithms.Node;
 
 import java.awt.*;
 
@@ -30,7 +32,10 @@ public class VisualGrid {
         }
     }
 
-    public void render() {
+    // Draw the grid, marking out obstacles, start cell and target cell
+    // This method is not affected in any way by the algorithm that is being visualized on the grid
+    // It is only interested in rendering the static obstacle positions and start/target positions
+    public void renderGrid() {
         // Draw cells
         for (int row = 0; row < grid.numRows; row++) {
             for (int col = 0; col < grid.numCols; col++) {
@@ -65,5 +70,32 @@ public class VisualGrid {
                 renderer.end();
             }
         }
+    }
+
+    // Renders the given algorithm step by marking out the current path as well as open and closed nodes
+    // Should only be called by AlgorithmVisualizer
+    public void renderStep(AlgorithmStep algorithmStep) {
+        // Mark open nodes
+        for (Node node: algorithmStep.openNodes) {
+            markNode(node, Color.SKY);
+        }
+
+        // Mark closed nodes
+        for (Node node: algorithmStep.closedNodes) {
+            markNode(node, Color.LIGHT_GRAY);
+        }
+
+        // Mark current path
+        for (Node node: algorithmStep.currentPath) {
+            markNode(node, Color.GREEN);
+        }
+    }
+
+    private void markNode(Node node, Color color) {
+        renderer.begin(ShapeRenderer.ShapeType.Filled);
+        renderer.setColor(color);
+        Rectangle cell = cells[node.getRow()][node.getCol()];
+        renderer.rect(cell.x, cell.y, cell.width - 1, cell.height - 1);
+        renderer.end();
     }
 }
