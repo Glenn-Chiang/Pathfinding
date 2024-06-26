@@ -13,7 +13,7 @@ import com.github.glennchiang.pathfinding.visualization.VisualGrid;
 
 public class Pathfinding extends ApplicationAdapter {
     public final static int SCREEN_WIDTH = 800;
-    public final static int SCREEN_HEIGHT = 640;
+    public final static int SCREEN_HEIGHT = 800;
 
     private OrthographicCamera camera;
     private FitViewport viewport;
@@ -29,7 +29,7 @@ public class Pathfinding extends ApplicationAdapter {
         // Boilerplate setup
         camera = new OrthographicCamera();
         camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
-        viewport = new FitViewport(SCREEN_WIDTH, SCREEN_HEIGHT);
+        viewport = new FitViewport(SCREEN_WIDTH, SCREEN_HEIGHT, camera);
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(camera.combined);
         stage = new Stage(viewport);
@@ -71,12 +71,6 @@ public class Pathfinding extends ApplicationAdapter {
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
-    }
-
-    @Override
-    public void resize(int width, int height) {
-        viewport.update(width, height);
-//        stage.getViewport().update(width, height, true);
     }
 
     @Override

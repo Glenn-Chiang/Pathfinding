@@ -13,6 +13,7 @@ public class DesktopLauncher {
 		config.setForegroundFPS(60);
 		config.setTitle("Pathfinding");
 		config.setWindowedMode(Pathfinding.SCREEN_WIDTH, Pathfinding.SCREEN_HEIGHT);
+		config.setResizable(false);
 		new Lwjgl3Application(new Pathfinding(), config);
 	}
 }

@@ -62,7 +62,7 @@ public class VisualGrid {
                         color = Color.RED;
                         break;
                     case OBSTACLE:
-                        color = Color.valueOf("#01579B");
+                        color = Color.valueOf("#1B4F72");
                         break;
                     case EMPTY:
                     default:
@@ -109,8 +109,8 @@ public class VisualGrid {
 
     // Highlight the final path found by the solution, from start node to target node
     public void renderSolutionPath(List<Node> solutionPath) {
-        for (Node node: solutionPath) {
-            markNode(node, Color.GREEN);
-        }
+//        for (Node node: solutionPath) {
+//            markNode(node, Color.GREEN);
+//        }
     }
 }

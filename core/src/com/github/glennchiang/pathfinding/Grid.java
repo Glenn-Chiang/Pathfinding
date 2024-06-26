@@ -64,6 +64,7 @@ public class Grid {
         setObstacle(4, 7);
         setObstacle(3, 7);
         setObstacle(2, 7);
+        setObstacle(numRows - 1, 0);
     }
 
 }
