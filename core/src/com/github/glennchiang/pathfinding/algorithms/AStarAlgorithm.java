@@ -20,9 +20,9 @@ public class AStarAlgorithm extends PathfindingAlgorithm<AStarNode> {
             int fCostComparison = Integer.compare(nodeA.fCost(), nodeB.fCost());
             if (fCostComparison != 0) {
                 return fCostComparison;
-                // If f costs are equal, select node with lower g cost
+                // If f costs are equal, select node with lower h cost, i.e. closer to target node
             } else {
-                return Integer.compare(nodeA.gCost, nodeB.gCost);
+                return Integer.compare(nodeA.hCost, nodeB.hCost);
             }
         });
         return bestNode.orElse(null);

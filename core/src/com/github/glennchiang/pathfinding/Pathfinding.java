@@ -37,8 +37,8 @@ public class Pathfinding extends ApplicationAdapter {
         // Initialize grid for pathfinder to act on
         grid = new Grid(20, 32);
         grid.setStart(0, 0);
-        grid.setTarget(5, 8);
-//        grid.setTarget(grid.numRows - 1, grid.numCols - 1);
+//        grid.setTarget(5, 8);
+        grid.setTarget(grid.numRows - 1, grid.numCols - 1);
         grid.setObstacles();
 
         // Visual representation of grid and algorithm
