@@ -7,7 +7,7 @@ import com.github.glennchiang.pathfinding.algorithms.AlgorithmStep;
 import java.util.Iterator;
 
 public class AlgorithmVisualizer {
-    private float stepInterval = 0.1f; // Time interval, in seconds, between each step displayed
+    private float stepInterval = 0.05f; // Time interval, in seconds, between each step displayed
     private float stepTimer = stepInterval;
     private final VisualGrid grid;
     private AlgorithmSolution currentSolution;
@@ -35,6 +35,10 @@ public class AlgorithmVisualizer {
 
         // If we have reached the last step, stop iterating steps
         if (!stepIterator.hasNext()) {
+            if (currentSolution.isValid) {
+                grid.renderSolutionPath(currentSolution.finalPath());
+            }
+
             return;
         }
 

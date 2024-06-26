@@ -2,10 +2,12 @@ package com.github.glennchiang.pathfinding;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.github.glennchiang.pathfinding.algorithms.AlgorithmStep;
 import com.github.glennchiang.pathfinding.algorithms.Node;
 
 import java.awt.*;
+import java.util.List;
 
 public class VisualGrid {
     private final ShapeRenderer renderer;
@@ -91,7 +93,8 @@ public class VisualGrid {
         }
     }
     private void markNode(Node node, Color color) {
-        if (grid.getCell(node.getRow(), node.getCol()) != CellType.EMPTY) {
+        CellType cellType = grid.getCell(node.getRow(), node.getCol());
+        if (cellType == CellType.OBSTACLE || cellType == CellType.START) {
             return;
         }
 
@@ -100,5 +103,12 @@ public class VisualGrid {
         Rectangle cell = cells[node.getRow()][node.getCol()];
         renderer.rect(cell.x, cell.y, cell.width - 1, cell.height - 1);
         renderer.end();
+    }
+
+    // Highlight the final path found by the solution, from start node to target node
+    public void renderSolutionPath(List<Node> solutionPath) {
+        for (Node node: solutionPath) {
+            markNode(node, Color.GREEN);
+        }
     }
 }
