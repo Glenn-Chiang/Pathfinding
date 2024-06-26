@@ -1,9 +1,17 @@
 package com.github.glennchiang.pathfinding.algorithms;
 
-public interface Node {
-    int getRow();
-    int getCol();
-    Node getParent();
-    void setParent(Node parent);
-    int getCost();
+public class Node {
+    public final int row;
+    public final int col;
+    Node parent;
+    int distanceFromStart;
+
+    public Node(int row, int col) {
+        this.row = row;
+        this.col = col;
+    }
+
+    public int distanceFromStart() {
+        return distanceFromStart;
+    }
 }

@@ -95,14 +95,14 @@ public class VisualGrid {
         }
     }
     private void markNode(Node node, Color color) {
-        CellType cellType = grid.getCell(node.getRow(), node.getCol());
+        CellType cellType = grid.getCell(node.row, node.col);
         if (cellType != CellType.EMPTY) {
             return;
         }
 
         renderer.begin(ShapeRenderer.ShapeType.Filled);
         renderer.setColor(color);
-        Rectangle cell = cells[node.getRow()][node.getCol()];
+        Rectangle cell = cells[node.row][node.col];
         renderer.rect(cell.x, cell.y, cell.width - 1, cell.height - 1);
         renderer.end();
     }
