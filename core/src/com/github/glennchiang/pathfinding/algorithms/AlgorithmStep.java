@@ -12,4 +12,9 @@ public class AlgorithmStep {
         this.openNodes = openNodes;
         this.closedNodes = closedNodes;
     }
+
+    // Get cost of current node, i.e. its distance from the start node
+    public int getCost() {
+        return currentPath.get(currentPath.size() - 1).getCost();
+    }
 }

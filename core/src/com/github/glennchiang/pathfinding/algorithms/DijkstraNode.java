@@ -4,12 +4,16 @@ public class DijkstraNode implements Node {
     public final int row;
     public final int col;
     public Node parent;
-    public int gCost; // Distance from start node
-    public int hCost; // Distance from target node
+    public int cost; // Distance from start node
 
     public DijkstraNode(int row, int col) {
         this.row = row;
         this.col = col;
+    }
+
+    @Override
+    public int getCost() {
+        return cost;
     }
 
     @Override
@@ -32,7 +36,4 @@ public class DijkstraNode implements Node {
         this.parent = parent;
     }
 
-    public int fCost() {
-        return gCost + hCost;
-    }
 }

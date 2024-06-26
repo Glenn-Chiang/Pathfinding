@@ -8,6 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.github.glennchiang.pathfinding.algorithms.*;
+import com.github.glennchiang.pathfinding.visualization.AlgorithmVisualizer;
+import com.github.glennchiang.pathfinding.visualization.VisualGrid;
 
 public class Pathfinding extends ApplicationAdapter {
     public final static int SCREEN_WIDTH = 800;
@@ -35,7 +37,8 @@ public class Pathfinding extends ApplicationAdapter {
         // Initialize grid for pathfinder to act on
         grid = new Grid(20, 32);
         grid.setStart(0, 0);
-        grid.setTarget(grid.numRows - 1, grid.numCols - 1);
+        grid.setTarget(5, 8);
+//        grid.setTarget(grid.numRows - 1, grid.numCols - 1);
         grid.setObstacles();
 
         // Visual representation of grid and algorithm
@@ -72,7 +75,8 @@ public class Pathfinding extends ApplicationAdapter {
 
     @Override
     public void resize(int width, int height) {
-
+        viewport.update(width, height);
+//        stage.getViewport().update(width, height, true);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.github.glennchiang.pathfinding;
+package com.github.glennchiang.pathfinding.visualization;
 
 import com.badlogic.gdx.Gdx;
 import com.github.glennchiang.pathfinding.algorithms.AlgorithmSolution;

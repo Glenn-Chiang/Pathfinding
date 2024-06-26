@@ -5,4 +5,5 @@ public interface Node {
     int getCol();
     Node getParent();
     void setParent(Node parent);
+    int getCost();
 }

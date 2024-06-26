@@ -1,8 +1,10 @@
-package com.github.glennchiang.pathfinding;
+package com.github.glennchiang.pathfinding.visualization;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
+import com.github.glennchiang.pathfinding.CellType;
+import com.github.glennchiang.pathfinding.Grid;
 import com.github.glennchiang.pathfinding.algorithms.AlgorithmStep;
 import com.github.glennchiang.pathfinding.algorithms.Node;
 
@@ -94,7 +96,7 @@ public class VisualGrid {
     }
     private void markNode(Node node, Color color) {
         CellType cellType = grid.getCell(node.getRow(), node.getCol());
-        if (cellType == CellType.OBSTACLE || cellType == CellType.START) {
+        if (cellType != CellType.EMPTY) {
             return;
         }
 

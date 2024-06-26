@@ -13,6 +13,11 @@ public class AStarNode implements Node {
     }
 
     @Override
+    public int getCost() {
+        return gCost;
+    }
+
+    @Override
     public int getRow() {
         return row;
     }

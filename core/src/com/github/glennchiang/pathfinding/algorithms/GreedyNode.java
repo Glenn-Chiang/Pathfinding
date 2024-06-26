@@ -13,6 +13,11 @@ public class GreedyNode implements Node {
     }
 
     @Override
+    public int getCost() {
+        return 0;
+    }
+
+    @Override
     public int getRow() {
         return row;
     }

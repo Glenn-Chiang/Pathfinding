@@ -5,7 +5,7 @@ package com.github.glennchiang.pathfinding;
 public class Grid {
     public final int numRows;
     public final int numCols;
-    private CellType[][] grid;
+    private final CellType[][] grid;
 
     private int startRow;
     private int startCol;
@@ -61,7 +61,9 @@ public class Grid {
         setObstacle(5, 5);
         setObstacle(5, 6);
         setObstacle(4, 6);
-
+        setObstacle(4, 7);
+        setObstacle(3, 7);
+        setObstacle(2, 7);
     }
 
 }
