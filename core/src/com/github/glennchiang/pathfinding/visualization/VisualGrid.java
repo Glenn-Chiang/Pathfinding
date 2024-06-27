@@ -1,10 +1,12 @@
 package com.github.glennchiang.pathfinding.visualization;
 
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.github.glennchiang.pathfinding.CellType;
 import com.github.glennchiang.pathfinding.Grid;
+import com.github.glennchiang.pathfinding.Pathfinding;
 import com.github.glennchiang.pathfinding.algorithms.AlgorithmStep;
 import com.github.glennchiang.pathfinding.algorithms.Node;
 
@@ -45,13 +47,9 @@ public class VisualGrid {
             for (int col = 0; col < grid.numCols; col++) {
                 Rectangle cell = cells[row][col];
 
-                // Draw cell border
-                renderer.begin(ShapeRenderer.ShapeType.Line);
-                renderer.setColor(Color.valueOf("#2980B9"));
-                renderer.rect(cell.x, cell.y, cell.width, cell.height);
-                renderer.end();
-
                 CellType cellType = grid.getCell(row, col);
+
+                // Fill cell with color
                 Color color;
                 renderer.begin(ShapeRenderer.ShapeType.Filled);
                 switch (cellType) {
@@ -70,10 +68,19 @@ public class VisualGrid {
                         break;
                 }
                 renderer.setColor(color);
-                renderer.rect(cell.x, cell.y, cell.width - 1, cell.height - 1);
+                renderer.rect(cell.x, cell.y, cell.width, cell.height);
                 renderer.end();
+
+                drawCellBorder(cell);
             }
         }
+    }
+
+    private void drawCellBorder(Rectangle cell) {
+        renderer.begin(ShapeRenderer.ShapeType.Line);
+        renderer.setColor(Color.valueOf("#2980B9"));
+        renderer.rect(cell.x, cell.y, cell.width, cell.height);
+        renderer.end();
     }
 
     // Renders the given algorithm step by marking out the current path as well as open and closed nodes
@@ -103,8 +110,10 @@ public class VisualGrid {
         renderer.begin(ShapeRenderer.ShapeType.Filled);
         renderer.setColor(color);
         Rectangle cell = cells[node.row][node.col];
-        renderer.rect(cell.x, cell.y, cell.width - 1, cell.height - 1);
+        renderer.rect(cell.x, cell.y, cell.width, cell.height);
         renderer.end();
+
+        drawCellBorder(cell);
     }
 
     // Highlight the final path found by the solution, from start node to target node

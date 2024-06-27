@@ -6,7 +6,10 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.glennchiang.pathfinding.algorithms.*;
 import com.github.glennchiang.pathfinding.visualization.AlgorithmVisualizer;
 import com.github.glennchiang.pathfinding.visualization.VisualGrid;
@@ -16,7 +19,7 @@ public class Pathfinding extends ApplicationAdapter {
     public final static int SCREEN_HEIGHT = 800;
 
     private OrthographicCamera camera;
-    private FitViewport viewport;
+    private Viewport viewport;
     private ShapeRenderer shapeRenderer;
     private Stage stage;
 
@@ -28,11 +31,12 @@ public class Pathfinding extends ApplicationAdapter {
     public void create() {
         // Boilerplate setup
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
         viewport = new FitViewport(SCREEN_WIDTH, SCREEN_HEIGHT, camera);
         shapeRenderer = new ShapeRenderer();
-        shapeRenderer.setProjectionMatrix(camera.combined);
+
+        // Set up stage
         stage = new Stage(viewport);
+        Gdx.input.setInputProcessor(stage);
 
         // Initialize grid for pathfinder to act on
         grid = new Grid(20, 32);
@@ -44,7 +48,8 @@ public class Pathfinding extends ApplicationAdapter {
         // Visual representation of grid and algorithm
         int gridWidth = 640;
         int gridHeight = 400;
-        visualGrid = new VisualGrid((SCREEN_WIDTH - gridWidth) / 2, (SCREEN_HEIGHT - gridHeight) / 2, gridWidth, gridHeight, grid, shapeRenderer);
+        visualGrid = new VisualGrid((SCREEN_WIDTH - gridWidth) / 2, (SCREEN_HEIGHT - gridHeight) / 2,
+                gridWidth, gridHeight, grid, shapeRenderer);
 
         visualizer = new AlgorithmVisualizer(visualGrid);
 
@@ -71,6 +76,12 @@ public class Pathfinding extends ApplicationAdapter {
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        shapeRenderer.setProjectionMatrix(camera.combined);
+        stage.getViewport().update(width, height, true);
     }
 
     @Override
