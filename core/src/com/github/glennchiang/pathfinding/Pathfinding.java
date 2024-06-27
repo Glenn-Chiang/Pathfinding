@@ -12,7 +12,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.glennchiang.pathfinding.algorithms.*;
 import com.github.glennchiang.pathfinding.visualization.AlgorithmVisualizer;
 import com.github.glennchiang.pathfinding.visualization.MetricsDisplayer;
-import com.github.glennchiang.pathfinding.visualization.VisualGrid;
+import com.github.glennchiang.pathfinding.visualization.GridDisplayer;
 
 public class Pathfinding extends ApplicationAdapter {
     public final static int SCREEN_WIDTH = 800;
@@ -24,7 +24,7 @@ public class Pathfinding extends ApplicationAdapter {
     private Stage stage;
 
     private Grid grid;
-    private VisualGrid visualGrid;
+    private GridDisplayer visualGrid;
     private AlgorithmVisualizer visualizer;
     private MetricsDisplayer metricsDisplayer;
 
@@ -42,11 +42,11 @@ public class Pathfinding extends ApplicationAdapter {
         // Visual representation of grid and algorithm
         int gridWidth = 640;
         int gridHeight = 400;
-        visualGrid = new VisualGrid((SCREEN_WIDTH - gridWidth) / 2, (SCREEN_HEIGHT - gridHeight) / 2,
+        visualGrid = new GridDisplayer((SCREEN_WIDTH - gridWidth) / 2, (SCREEN_HEIGHT - gridHeight) / 2 - 100,
                 gridWidth, gridHeight, grid, shapeRenderer);
 
         metricsDisplayer = new MetricsDisplayer();
-        metricsDisplayer.addToLayout(rootTable);
+        metricsDisplayer.addToLayout(rootTable, gridWidth, 100);
         visualizer = new AlgorithmVisualizer(visualGrid, metricsDisplayer);
 
         setUpGrid();
@@ -57,7 +57,7 @@ public class Pathfinding extends ApplicationAdapter {
         Pathfinder[] algorithms = new Pathfinder[]{ aStar, greedy, dijkstra };
 
         AlgorithmSolution solution = aStar.findPath(grid);
-        visualizer.visualize(solution);
+        visualizer.setAlgorithm(solution);
 
     }
 

@@ -12,38 +12,51 @@ public class AlgorithmVisualizer {
     private AlgorithmSolution currentSolution;
     private Iterator<AlgorithmStep> stepIterator;
     private AlgorithmStep currentStep;
-
-    private boolean isActive = false;
-
-    private final VisualGrid grid;
+    private final GridDisplayer grid;
     private final MetricsDisplayer metricsDisplayer;
 
+    private enum State {
+        ACTIVE, PAUSED, STOPPED
+    }
 
-    public AlgorithmVisualizer(VisualGrid grid, MetricsDisplayer metricsDisplayer) {
+    private State state;
+
+    public AlgorithmVisualizer(GridDisplayer grid, MetricsDisplayer metricsDisplayer) {
         this.grid = grid;
         this.metricsDisplayer = metricsDisplayer;
     }
 
-    public void visualize(AlgorithmSolution solution) {
-        isActive = true;
+    public void setAlgorithm(AlgorithmSolution solution) {
         currentSolution = solution;
         stepIterator = currentSolution.steps.iterator();
         currentStep = stepIterator.next();
     }
 
+    public void start() {
+        state = State.ACTIVE;
+    }
+
+    public void pause() {
+        state = State.PAUSED;
+    }
+
+    public void reset() {
+        state = State.STOPPED;
+        currentSolution = null;
+    }
+
     // Called every frame
     public void update() {
-        if (!isActive) return;
+        if (state == State.STOPPED) return;
 
+        // If paused but not stopped, continue rendering the current step
         grid.renderStep(currentStep);
-        metricsDisplayer.update(currentStep);
 
-        // If we have reached the last step, stop iterating steps
-        if (!stepIterator.hasNext()) {
+        // If paused or reached the last step, stop iterating steps
+        if (state == State.PAUSED || !stepIterator.hasNext()) {
             if (currentSolution.isValid) {
                 grid.renderSolutionPath(currentSolution.finalPath());
             }
-
             return;
         }
 
@@ -53,6 +66,7 @@ public class AlgorithmVisualizer {
         // At every interval, iterate to the next step
         if (stepTimer <= 0) {
             currentStep = stepIterator.next();
+            metricsDisplayer.update(currentStep);
 
             // Reset timer interval
             stepTimer = stepInterval;

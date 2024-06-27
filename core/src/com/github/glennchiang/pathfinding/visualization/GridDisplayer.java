@@ -1,24 +1,21 @@
 package com.github.glennchiang.pathfinding.visualization;
 
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.github.glennchiang.pathfinding.CellType;
 import com.github.glennchiang.pathfinding.Grid;
-import com.github.glennchiang.pathfinding.Pathfinding;
 import com.github.glennchiang.pathfinding.algorithms.AlgorithmStep;
 import com.github.glennchiang.pathfinding.algorithms.Node;
 
 import java.awt.*;
 import java.util.List;
 
-public class VisualGrid {
+public class GridDisplayer {
     private final ShapeRenderer renderer;
     private final Grid grid;
     private final Rectangle[][] cells;
 
-    public VisualGrid(int x, int y, int width, int height, Grid grid, ShapeRenderer renderer) {
+    public GridDisplayer(int x, int y, int width, int height, Grid grid, ShapeRenderer renderer) {
         this.grid = grid;
         this.renderer = renderer;
 

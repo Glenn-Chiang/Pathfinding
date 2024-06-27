@@ -27,8 +27,8 @@ public class MetricsDisplayer {
         table.add(visitedLabel).expandX();
     }
 
-    public void addToLayout(Table rootTable) {
-        rootTable.add(table).expand().height(200).bottom().width(640);
+    public void addToLayout(Table rootTable, int width, int height) {
+        rootTable.add(table).expand().bottom().width(width).height(height);
     }
 
     public void update(AlgorithmStep algorithmStep) {
