@@ -5,13 +5,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.glennchiang.pathfinding.algorithms.*;
 import com.github.glennchiang.pathfinding.visualization.AlgorithmVisualizer;
+import com.github.glennchiang.pathfinding.visualization.MetricsDisplayer;
 import com.github.glennchiang.pathfinding.visualization.VisualGrid;
 
 public class Pathfinding extends ApplicationAdapter {
@@ -26,6 +26,7 @@ public class Pathfinding extends ApplicationAdapter {
     private Grid grid;
     private VisualGrid visualGrid;
     private AlgorithmVisualizer visualizer;
+    private MetricsDisplayer metricsDisplayer;
 
     @Override
     public void create() {
@@ -34,17 +35,10 @@ public class Pathfinding extends ApplicationAdapter {
         viewport = new FitViewport(SCREEN_WIDTH, SCREEN_HEIGHT, camera);
         shapeRenderer = new ShapeRenderer();
 
-        // Set up stage
-        stage = new Stage(viewport);
-        Gdx.input.setInputProcessor(stage);
+        setUpStage();
 
         // Initialize grid for pathfinder to act on
         grid = new Grid(20, 32);
-        grid.setStart(0, 0);
-//        grid.setTarget(5, 8);
-        grid.setTarget(grid.numRows - 1, grid.numCols - 1);
-        grid.setObstacles();
-
         // Visual representation of grid and algorithm
         int gridWidth = 640;
         int gridHeight = 400;
@@ -53,17 +47,37 @@ public class Pathfinding extends ApplicationAdapter {
 
         visualizer = new AlgorithmVisualizer(visualGrid);
 
+        setUpGrid();
+
         Pathfinder aStar = new AStarAlgorithm();
         Pathfinder greedy = new GreedyAlgorithm();
         Pathfinder dijkstra = new DijkstraAlgorithm();
         Pathfinder[] algorithms = new Pathfinder[]{ aStar, greedy, dijkstra };
 
-//        for (Pathfinder algorithm: algorithms) {
-//            AlgorithmSolution solution = algorithm.findPath(grid);
-//            visualizer.visualize(solution);
-//        }
         AlgorithmSolution solution = aStar.findPath(grid);
         visualizer.visualize(solution);
+
+    }
+
+    private void setUpStage() {
+        stage = new Stage(viewport);
+        Gdx.input.setInputProcessor(stage);
+
+        Table rootTable = new Table();
+        rootTable.setFillParent(true);
+        stage.addActor(rootTable);
+
+        // Show layout lines for debugging
+//        rootTable.setDebug(true);
+
+        metricsDisplayer = new MetricsDisplayer();
+        metricsDisplayer.addToLayout(rootTable);
+    }
+
+    private void setUpGrid() {
+        grid.setStart(0, 0);
+        grid.setTarget(grid.numRows - 1, grid.numCols - 1);
+        grid.setObstacles();
     }
 
     @Override
@@ -72,7 +86,7 @@ public class Pathfinding extends ApplicationAdapter {
         camera.update();
 
 		visualGrid.renderGrid();
-        visualizer.update();
+//        visualizer.update();
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
