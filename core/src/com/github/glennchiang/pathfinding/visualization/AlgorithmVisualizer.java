@@ -19,7 +19,7 @@ public class AlgorithmVisualizer {
         ACTIVE, PAUSED, STOPPED
     }
 
-    private State state;
+    private State state = State.STOPPED;
 
     public AlgorithmVisualizer(GridDisplayer grid, MetricsDisplayer metricsDisplayer) {
         this.grid = grid;
@@ -33,6 +33,9 @@ public class AlgorithmVisualizer {
     }
 
     public void toggleStart() {
+        // If there is no solution to visualize, do nothing
+        if (currentSolution == null) return;
+
         if (state != State.ACTIVE) {
             state = State.ACTIVE;
         } else {

@@ -1,8 +1,8 @@
 package com.github.glennchiang.pathfinding.visualization;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 public class VisualizerControls {
@@ -11,20 +11,26 @@ public class VisualizerControls {
 
     public VisualizerControls(AlgorithmVisualizer algorithmVisualizer) {
         table = new Table();
+        table.bottom().left().padBottom(4);
         table.setDebug(true);
 
         this.algorithmVisualizer = algorithmVisualizer;
         WidgetFactory widgetFactory = WidgetFactory.getInstance();
 
-        Button startButton = widgetFactory.createStartButton();
-        startButton.addListener(new ChangeListener() {
+        TextButton playButton = widgetFactory.createPlayButton();
+        playButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                if (playButton.isChecked()) {
+                    playButton.setText("Pause");
+                } else {
+                    playButton.setText("Play");
+                }
                 algorithmVisualizer.toggleStart();
             }
         });
 
-        Button resetButton = widgetFactory.createResetButton();
+        TextButton resetButton = widgetFactory.createResetButton();
         resetButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -32,8 +38,8 @@ public class VisualizerControls {
             }
         });
 
-        table.add(startButton);
-        table.add(resetButton);
+        table.add(playButton).width(80).height(30).space(4);
+        table.add(resetButton).width(80).height(30);
     }
 
     public void addToLayout(Table rootTable, int width, int height) {

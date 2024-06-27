@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -33,24 +32,21 @@ public class WidgetFactory {
         return instance;
     }
 
-    public Button createStartButton() {
+    public TextButton createPlayButton() {
         TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
-        buttonStyle.up = useColoredTexture(Color.DARK_GRAY);
-        buttonStyle.down = useColoredTexture(Color.DARK_GRAY);
-        buttonStyle.checked = useColoredTexture(Color.BLUE);
-        buttonStyle.over = useColoredTexture(Color.LIGHT_GRAY);
+        buttonStyle.up = useColoredTexture(Color.valueOf("#2ECC71"));
+        buttonStyle.down = useColoredTexture(Color.valueOf("#28B463"));
+        buttonStyle.checked = useColoredTexture(Color.GOLD);
         buttonStyle.font = useFont();
-        return new TextButton("Start", buttonStyle);
+        return new TextButton("Play", buttonStyle);
     }
 
-    public Button createResetButton() {
+    public TextButton createResetButton() {
         TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
-        buttonStyle.up = useColoredTexture(Color.DARK_GRAY);
-        buttonStyle.down = useColoredTexture(Color.DARK_GRAY);
-        buttonStyle.checked = useColoredTexture(Color.BLUE);
-        buttonStyle.over = useColoredTexture(Color.LIGHT_GRAY);
+        buttonStyle.up = useColoredTexture(Color.RED);
+        buttonStyle.down = useColoredTexture(Color.valueOf("#E53935"));
         buttonStyle.font = useFont();
-        return new TextButton("Stop", buttonStyle);
+        return new TextButton("Reset", buttonStyle);
     }
 
     private BitmapFont useFont() {
