@@ -13,6 +13,7 @@ import com.github.glennchiang.pathfinding.algorithms.*;
 import com.github.glennchiang.pathfinding.visualization.AlgorithmVisualizer;
 import com.github.glennchiang.pathfinding.visualization.MetricsDisplayer;
 import com.github.glennchiang.pathfinding.visualization.GridDisplayer;
+import com.github.glennchiang.pathfinding.visualization.VisualizerControls;
 
 public class Pathfinding extends ApplicationAdapter {
     public final static int SCREEN_WIDTH = 800;
@@ -27,6 +28,7 @@ public class Pathfinding extends ApplicationAdapter {
     private GridDisplayer visualGrid;
     private AlgorithmVisualizer visualizer;
     private MetricsDisplayer metricsDisplayer;
+    private VisualizerControls visualizerControls;
 
     @Override
     public void create() {
@@ -46,8 +48,12 @@ public class Pathfinding extends ApplicationAdapter {
                 gridWidth, gridHeight, grid, shapeRenderer);
 
         metricsDisplayer = new MetricsDisplayer();
-        metricsDisplayer.addToLayout(rootTable, gridWidth, 100);
         visualizer = new AlgorithmVisualizer(visualGrid, metricsDisplayer);
+        visualizerControls = new VisualizerControls(visualizer);
+
+        visualizerControls.addToLayout(rootTable, gridWidth, 300);
+        rootTable.row();
+        metricsDisplayer.addToLayout(rootTable, gridWidth, 100);
 
         setUpGrid();
 
@@ -57,7 +63,7 @@ public class Pathfinding extends ApplicationAdapter {
         Pathfinder[] algorithms = new Pathfinder[]{ aStar, greedy, dijkstra };
 
         AlgorithmSolution solution = aStar.findPath(grid);
-        visualizer.setAlgorithm(solution);
+        visualizer.setAlgorithmSolution(solution);
 
     }
 

@@ -26,23 +26,27 @@ public class AlgorithmVisualizer {
         this.metricsDisplayer = metricsDisplayer;
     }
 
-    public void setAlgorithm(AlgorithmSolution solution) {
+    public void setAlgorithmSolution(AlgorithmSolution solution) {
         currentSolution = solution;
         stepIterator = currentSolution.steps.iterator();
         currentStep = stepIterator.next();
     }
 
-    public void start() {
-        state = State.ACTIVE;
-    }
-
-    public void pause() {
-        state = State.PAUSED;
+    public void toggleStart() {
+        if (state != State.ACTIVE) {
+            state = State.ACTIVE;
+        } else {
+            state = State.PAUSED;
+        }
     }
 
     public void reset() {
+        if (state == State.STOPPED) return;
         state = State.STOPPED;
         currentSolution = null;
+        stepIterator = null;
+        currentStep = null;
+        metricsDisplayer.reset();
     }
 
     // Called every frame

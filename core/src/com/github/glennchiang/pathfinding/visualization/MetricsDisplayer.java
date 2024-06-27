@@ -13,7 +13,6 @@ public class MetricsDisplayer {
     private final Label visitedLabel;
     public MetricsDisplayer() {
         table = new Table();
-//        table.setDebug(true);
         table.top().padTop(16);
 
         Label.LabelStyle style = new Label.LabelStyle();
