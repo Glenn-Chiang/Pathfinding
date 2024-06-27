@@ -9,15 +9,19 @@ import java.util.Iterator;
 public class AlgorithmVisualizer {
     private float stepInterval = 0.05f; // Time interval, in seconds, between each step displayed
     private float stepTimer = stepInterval;
-    private final VisualGrid grid;
     private AlgorithmSolution currentSolution;
     private Iterator<AlgorithmStep> stepIterator;
-  private AlgorithmStep currentStep;
+    private AlgorithmStep currentStep;
 
     private boolean isActive = false;
 
-    public AlgorithmVisualizer(VisualGrid grid) {
+    private final VisualGrid grid;
+    private final MetricsDisplayer metricsDisplayer;
+
+
+    public AlgorithmVisualizer(VisualGrid grid, MetricsDisplayer metricsDisplayer) {
         this.grid = grid;
+        this.metricsDisplayer = metricsDisplayer;
     }
 
     public void visualize(AlgorithmSolution solution) {
@@ -32,6 +36,7 @@ public class AlgorithmVisualizer {
         if (!isActive) return;
 
         grid.renderStep(currentStep);
+        metricsDisplayer.update(currentStep);
 
         // If we have reached the last step, stop iterating steps
         if (!stepIterator.hasNext()) {

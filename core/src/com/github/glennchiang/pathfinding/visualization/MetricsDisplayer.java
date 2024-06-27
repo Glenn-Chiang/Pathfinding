@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.github.glennchiang.pathfinding.algorithms.AlgorithmSolution;
 import com.github.glennchiang.pathfinding.algorithms.AlgorithmStep;
 
 // Displays metrics for the algorithm being visualized
@@ -32,8 +31,14 @@ public class MetricsDisplayer {
         rootTable.add(table).expand().height(200).bottom().width(640);
     }
 
-    public void render(AlgorithmStep algorithmStep) {
-        
+    public void update(AlgorithmStep algorithmStep) {
+        setDistance(algorithmStep.getDistance());
+        setVisited(algorithmStep.getVisitedCount());
+    }
+
+    public void reset() {
+        setDistance(0);
+        setVisited(0);
     }
 
     private void setDistance(int distance) {

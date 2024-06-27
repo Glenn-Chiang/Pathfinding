@@ -35,7 +35,7 @@ public class Pathfinding extends ApplicationAdapter {
         viewport = new FitViewport(SCREEN_WIDTH, SCREEN_HEIGHT, camera);
         shapeRenderer = new ShapeRenderer();
 
-        setUpStage();
+        Table rootTable = setUpStage();
 
         // Initialize grid for pathfinder to act on
         grid = new Grid(20, 32);
@@ -45,7 +45,9 @@ public class Pathfinding extends ApplicationAdapter {
         visualGrid = new VisualGrid((SCREEN_WIDTH - gridWidth) / 2, (SCREEN_HEIGHT - gridHeight) / 2,
                 gridWidth, gridHeight, grid, shapeRenderer);
 
-        visualizer = new AlgorithmVisualizer(visualGrid);
+        metricsDisplayer = new MetricsDisplayer();
+        metricsDisplayer.addToLayout(rootTable);
+        visualizer = new AlgorithmVisualizer(visualGrid, metricsDisplayer);
 
         setUpGrid();
 
@@ -59,7 +61,7 @@ public class Pathfinding extends ApplicationAdapter {
 
     }
 
-    private void setUpStage() {
+    private Table setUpStage() {
         stage = new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
 
@@ -70,8 +72,7 @@ public class Pathfinding extends ApplicationAdapter {
         // Show layout lines for debugging
 //        rootTable.setDebug(true);
 
-        metricsDisplayer = new MetricsDisplayer();
-        metricsDisplayer.addToLayout(rootTable);
+        return rootTable;
     }
 
     private void setUpGrid() {
@@ -86,7 +87,7 @@ public class Pathfinding extends ApplicationAdapter {
         camera.update();
 
 		visualGrid.renderGrid();
-//        visualizer.update();
+        visualizer.update();
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
