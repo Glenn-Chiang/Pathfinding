@@ -14,7 +14,11 @@ public class WidgetHandler implements AlgorithmVisualizer.Listener {
 
     private final WidgetFactory widgetFactory;
 
+    private final AppController appController;
+
     private final TextButton runButton;
+    private final SelectBox<String> algorithmSelectBox;
+    private final SelectBox<String> distanceMetricSelectBox;
 
     public WidgetHandler(AppController appController, AlgorithmVisualizer visualizer) {
         // Subscribe to algorithm visualizer to be notified when visualizations are completed
@@ -26,6 +30,8 @@ public class WidgetHandler implements AlgorithmVisualizer.Listener {
 
         widgetFactory = WidgetFactory.getInstance();
 
+        this.appController = appController;
+
         // Configure algorithm dropdown
         AlgorithmManager algorithmManager = appController.algorithmManager;
         Array<String> algorithmNames = new Array<>();
@@ -34,7 +40,7 @@ public class WidgetHandler implements AlgorithmVisualizer.Listener {
         }
 
         Label algorithmLabel = widgetFactory.createLabel("Algorithm:");
-        SelectBox<String> algorithmSelectBox = widgetFactory.createSelectBox(algorithmNames);
+        algorithmSelectBox = widgetFactory.createSelectBox(algorithmNames);
 
         // Set selected algorithm to the default algorithm of the algorithm manager
         algorithmSelectBox.setSelected(algorithmManager.getSelectedAlgorithm().getName());
@@ -51,7 +57,7 @@ public class WidgetHandler implements AlgorithmVisualizer.Listener {
         for (DistanceMetric metric: DistanceMetric.values()) {
             distanceMetricNames.add(metric.name());
         }
-        SelectBox<String> distanceMetricSelectBox = widgetFactory.createSelectBox(distanceMetricNames);
+        distanceMetricSelectBox = widgetFactory.createSelectBox(distanceMetricNames);
         distanceMetricSelectBox.setSelected(algorithmManager.getDistanceMetric().name());
         distanceMetricSelectBox.addListener(new ChangeListener() {
             @Override
@@ -65,12 +71,7 @@ public class WidgetHandler implements AlgorithmVisualizer.Listener {
         runButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                appController.toggleRun();
-                if (appController.getState() == AppController.State.RUNNING) {
-                    setToPause();
-                } else {
-                    setToRun();
-                }
+                onToggleRun();
             }
         });
 
@@ -79,8 +80,7 @@ public class WidgetHandler implements AlgorithmVisualizer.Listener {
         resetButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                appController.reset();
-                setToRun();
+                onReset();
             }
         });
 
@@ -89,8 +89,8 @@ public class WidgetHandler implements AlgorithmVisualizer.Listener {
         table.add(algorithmSelectBox).spaceBottom(8).width(80).height(30).fill();
 
         // Add DistanceMetric dropdown
-        table.add(distanceMetricLabel);
-        table.add(distanceMetricSelectBox);
+        table.add(distanceMetricLabel).spaceBottom(8).spaceLeft(16).spaceRight(8).height(30);
+        table.add(distanceMetricSelectBox).spaceBottom(8);
 
         table.row();
 
@@ -99,17 +99,38 @@ public class WidgetHandler implements AlgorithmVisualizer.Listener {
         table.add(resetButton).width(80).height(30).left();
     }
 
-    @Override
-    public void onVisualizationComplete() {
-        setToRun();
+    private void onToggleRun() {
+        appController.toggleRun();
+        if (appController.getState() == AppController.State.RUNNING) {
+            setPauseButton();
+            algorithmSelectBox.setDisabled(true);
+            distanceMetricSelectBox.setDisabled(true);
+        } else {
+            setRunButton();
+        }
     }
 
-    private void setToRun() {
+    private void onReset() {
+        appController.reset();
+        setRunButton();
+        // Enable select boxes for algorithm manager
+        algorithmSelectBox.setDisabled(false);
+        distanceMetricSelectBox.setDisabled(false);
+    }
+
+    @Override
+    public void onVisualizationComplete() {
+        setRunButton();
+    }
+
+    // Change pause button to run button
+    private void setRunButton() {
         runButton.setText("Run");
         widgetFactory.setButtonStyle(runButton, "run");
     }
 
-    private void setToPause() {
+    // Change run button to pause button
+    private void setPauseButton() {
         runButton.setText("Pause");
         widgetFactory.setButtonStyle(runButton, "pause");
     }

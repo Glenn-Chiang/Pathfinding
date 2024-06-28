@@ -65,6 +65,7 @@ public class WidgetFactory {
         style.listStyle = listStyle;
 
         style.background = useTexture(Color.valueOf("#29B6F6"));
+        style.backgroundDisabled = useTexture(Color.SLATE);
         style.background.setTopHeight(8);
         style.background.setBottomHeight(8);
         style.background.setLeftWidth(8);
