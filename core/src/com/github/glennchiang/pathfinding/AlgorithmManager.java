@@ -1,10 +1,9 @@
-package com.github.glennchiang.pathfinding.visualization;
+package com.github.glennchiang.pathfinding;
 
 import com.github.glennchiang.pathfinding.Grid;
-import com.github.glennchiang.pathfinding.algorithms.AlgorithmSolution;
-import com.github.glennchiang.pathfinding.algorithms.DistanceMetric;
-import com.github.glennchiang.pathfinding.algorithms.PathfindingAlgorithm;
+import com.github.glennchiang.pathfinding.algorithms.*;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,11 +14,14 @@ public class AlgorithmManager {
 
     private DistanceMetric distanceMetric = DistanceMetric.EUCLIDEAN;
 
-    public AlgorithmManager(List<PathfindingAlgorithm> algorithms) {
+    public AlgorithmManager() {
+        // Initialize list of available algorithms to select from
+        PathfindingAlgorithm aStar = new AStarAlgorithm();
+        PathfindingAlgorithm greedy = new GreedyAlgorithm();
+        PathfindingAlgorithm dijkstra = new DijkstraAlgorithm();
+        List<PathfindingAlgorithm> algorithms = Arrays.asList(aStar, greedy, dijkstra);
         this.algorithms = algorithms;
-        if (algorithms.size() > 0) {
-            selectedAlgorithm = algorithms.get(0);
-        }
+        selectedAlgorithm = greedy;
     }
 
     public AlgorithmSolution runAlgorithm(Grid grid) {

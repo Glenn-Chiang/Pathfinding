@@ -4,7 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.github.glennchiang.pathfinding.algorithms.AlgorithmSolution;
 import com.github.glennchiang.pathfinding.algorithms.AlgorithmStep;
 
+import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.Iterator;
+import java.util.List;
 
 public class AlgorithmVisualizer {
     private float stepInterval = 0.05f; // Time interval, in seconds, between each step displayed
@@ -20,9 +23,25 @@ public class AlgorithmVisualizer {
     }
     private State state = State.INACTIVE;
 
+    public interface Listener extends EventListener {
+        void onCompleteVisualization();
+    }
+
+    private final List<Listener> listeners = new ArrayList<>();
+
     public AlgorithmVisualizer(GridDisplayer grid, MetricsDisplayer metricsDisplayer) {
         this.grid = grid;
         this.metricsDisplayer = metricsDisplayer;
+    }
+    public void registerListener(Listener listener) {
+        listeners.add(listener);
+    }
+
+    // Notify all listeners that the visualizer has completed
+    public void publishComplete() {
+        for (Listener listener: listeners) {
+            listener.onCompleteVisualization();
+        }
     }
 
     public void setAlgorithmSolution(AlgorithmSolution solution) {
@@ -49,16 +68,23 @@ public class AlgorithmVisualizer {
 
     // Called every frame
     public void update() {
-        if (state == State.INACTIVE) return;
+        if (currentStep != null) {
+            grid.renderStep(currentStep);
+        }
 
-        // If paused but not stopped, continue rendering the current step
-        grid.renderStep(currentStep);
+        if (state != State.RUNNING) {
+            return;
+        }
 
-        // If paused or reached the last step, stop iterating steps
-        if (state == State.PAUSED || !stepIterator.hasNext()) {
+        // Completed visualizing solution
+        if (!stepIterator.hasNext()) {
+            // Notify any listeners that visualization is complete
+            publishComplete();
+            // If a valid path is found, highlight the path
             if (currentSolution.isValid) {
                 grid.renderSolutionPath(currentSolution.finalPath());
             }
+            state = State.INACTIVE;
             return;
         }
 

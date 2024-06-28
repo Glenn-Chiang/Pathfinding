@@ -53,12 +53,8 @@ public class Pathfinding extends ApplicationAdapter {
         // Initialize start and target cells and obstacle positions
         setUpGrid();
 
-        // Initialize list of available algorithms to select from
-        PathfindingAlgorithm aStar = new AStarAlgorithm();
-        PathfindingAlgorithm greedy = new GreedyAlgorithm();
-        PathfindingAlgorithm dijkstra = new DijkstraAlgorithm();
-        List<PathfindingAlgorithm> algorithms = Arrays.asList(aStar, greedy, dijkstra);
-        AlgorithmManager algorithmManager = new AlgorithmManager(algorithms);
+
+        AlgorithmManager algorithmManager = new AlgorithmManager();
 
         AppController appController = new AppController(grid, algorithmManager, visualizer);
 

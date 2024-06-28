@@ -1,11 +1,10 @@
 package com.github.glennchiang.pathfinding;
 
 import com.github.glennchiang.pathfinding.algorithms.AlgorithmSolution;
-import com.github.glennchiang.pathfinding.visualization.AlgorithmManager;
 import com.github.glennchiang.pathfinding.visualization.AlgorithmVisualizer;
 
 // Top-level controller coordinating between AlgorithmManager and AlgorithmVisualizer
-public class AppController {
+public class AppController implements AlgorithmVisualizer.Listener {
     private final Grid grid;
     private final AlgorithmManager algorithmManager;
     private final AlgorithmVisualizer visualizer;
@@ -13,7 +12,7 @@ public class AppController {
         this.grid = grid;
         this.algorithmManager = algorithmManager;
         this.visualizer = visualizer;
-
+        visualizer.registerListener(this);
     }
 
     public enum State {
@@ -59,5 +58,13 @@ public class AppController {
     public void reset() {
         state = State.INACTIVE;
         visualizer.reset();
+    }
+
+    // When visualizer has completed the visualization of the current algorithm solution,
+    // change to inactive state
+    @Override
+    public void onCompleteVisualization() {
+        System.out.println("finished vis");
+        state = State.INACTIVE;
     }
 }
