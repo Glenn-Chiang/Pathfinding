@@ -17,6 +17,9 @@ public class AlgorithmManager {
 
     public AlgorithmManager(List<PathfindingAlgorithm> algorithms) {
         this.algorithms = algorithms;
+        if (algorithms.size() > 0) {
+            selectedAlgorithm = algorithms.get(0);
+        }
     }
 
     public AlgorithmSolution runAlgorithm(Grid grid) {

@@ -4,29 +4,30 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.github.glennchiang.pathfinding.AppController;
 
-public class WidgetController {
+public class WidgetHandler {
     private Table table;
-    private final AlgorithmVisualizer algorithmVisualizer;
 
-    public WidgetController(AlgorithmVisualizer algorithmVisualizer) {
+    public WidgetHandler(AppController appController) {
         table = new Table();
         table.bottom().left().padBottom(4);
         table.setDebug(true);
 
-        this.algorithmVisualizer = algorithmVisualizer;
         WidgetFactory widgetFactory = WidgetFactory.getInstance();
 
-        TextButton playButton = widgetFactory.createPlayButton();
-        playButton.addListener(new ChangeListener() {
+        TextButton runButton = widgetFactory.createRunButton();
+        runButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                if (playButton.isChecked()) {
-                    playButton.setText("Pause");
+                if (appController.getState() != AppController.State.RUNNING) {
+                    // Start running and change to pause button
+                    runButton.setText("Pause");
                 } else {
-                    playButton.setText("Play");
+                    // Pause and change to run button
+                    runButton.setText("Run");
                 }
-                algorithmVisualizer.toggleStart();
+                appController.toggleRun();
             }
         });
 
@@ -34,11 +35,13 @@ public class WidgetController {
         resetButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                algorithmVisualizer.reset();
+                appController.reset();
+                runButton.setText("Run");
+//                runButton.setChecked(true);
             }
         });
 
-        table.add(playButton).width(80).height(30).space(4);
+        table.add(runButton).width(80).height(30).space(4);
         table.add(resetButton).width(80).height(30);
     }
 

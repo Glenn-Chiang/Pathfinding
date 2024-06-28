@@ -32,13 +32,13 @@ public class WidgetFactory {
         return instance;
     }
 
-    public TextButton createPlayButton() {
+    public TextButton createRunButton() {
         TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
         buttonStyle.up = useColoredTexture(Color.valueOf("#2ECC71"));
         buttonStyle.down = useColoredTexture(Color.valueOf("#28B463"));
         buttonStyle.checked = useColoredTexture(Color.GOLD);
         buttonStyle.font = useFont();
-        return new TextButton("Play", buttonStyle);
+        return new TextButton("Run", buttonStyle);
     }
 
     public TextButton createResetButton() {

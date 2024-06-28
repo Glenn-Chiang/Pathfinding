@@ -3,7 +3,6 @@ package com.github.glennchiang.pathfinding.visualization;
 import com.badlogic.gdx.Gdx;
 import com.github.glennchiang.pathfinding.algorithms.AlgorithmSolution;
 import com.github.glennchiang.pathfinding.algorithms.AlgorithmStep;
-import com.github.glennchiang.pathfinding.algorithms.PathfindingAlgorithm;
 
 import java.util.Iterator;
 
@@ -17,11 +16,9 @@ public class AlgorithmVisualizer {
     private final MetricsDisplayer metricsDisplayer;
 
     private enum State {
-        ACTIVE, PAUSED, STOPPED
+        INACTIVE, RUNNING, PAUSED,
     }
-
-    private State state = State.STOPPED;
-
+    private State state = State.INACTIVE;
 
     public AlgorithmVisualizer(GridDisplayer grid, MetricsDisplayer metricsDisplayer) {
         this.grid = grid;
@@ -34,20 +31,16 @@ public class AlgorithmVisualizer {
         currentStep = stepIterator.next();
     }
 
-    public void toggleStart() {
-        // If there is no solution to visualize, do nothing
-        if (currentSolution == null) return;
+    public void run() {
+        state = State.RUNNING;
+    }
 
-        if (state != State.ACTIVE) {
-            state = State.ACTIVE;
-        } else {
-            state = State.PAUSED;
-        }
+    public void pause() {
+        state = State.PAUSED;
     }
 
     public void reset() {
-        if (state == State.STOPPED) return;
-        state = State.STOPPED;
+        state = State.INACTIVE;
         currentSolution = null;
         stepIterator = null;
         currentStep = null;
@@ -56,7 +49,7 @@ public class AlgorithmVisualizer {
 
     // Called every frame
     public void update() {
-        if (state == State.STOPPED) return;
+        if (state == State.INACTIVE) return;
 
         // If paused but not stopped, continue rendering the current step
         grid.renderStep(currentStep);

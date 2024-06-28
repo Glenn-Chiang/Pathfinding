@@ -12,7 +12,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.glennchiang.pathfinding.algorithms.*;
 import com.github.glennchiang.pathfinding.visualization.*;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,7 +28,7 @@ public class Pathfinding extends ApplicationAdapter {
     private GridDisplayer visualGrid;
     private AlgorithmVisualizer visualizer;
     private MetricsDisplayer metricsDisplayer;
-    private WidgetController visualizerControls;
+    private WidgetHandler visualizerControls;
 
     @Override
     public void create() {
@@ -50,11 +49,6 @@ public class Pathfinding extends ApplicationAdapter {
 
         metricsDisplayer = new MetricsDisplayer();
         visualizer = new AlgorithmVisualizer(visualGrid, metricsDisplayer);
-        visualizerControls = new WidgetController(visualizer);
-
-        visualizerControls.addToLayout(rootTable, gridWidth, 300);
-        rootTable.row();
-        metricsDisplayer.addToLayout(rootTable, gridWidth, 100);
 
         // Initialize start and target cells and obstacle positions
         setUpGrid();
@@ -66,8 +60,12 @@ public class Pathfinding extends ApplicationAdapter {
         List<PathfindingAlgorithm> algorithms = Arrays.asList(aStar, greedy, dijkstra);
         AlgorithmManager algorithmManager = new AlgorithmManager(algorithms);
 
-        AlgorithmSolution solution = algorithmManager.runAlgorithm(grid);
-        visualizer.setAlgorithmSolution(solution);
+        AppController appController = new AppController(grid, algorithmManager, visualizer);
+
+        visualizerControls = new WidgetHandler(appController);
+        visualizerControls.addToLayout(rootTable, gridWidth, 300);
+        rootTable.row();
+        metricsDisplayer.addToLayout(rootTable, gridWidth, 100);
     }
 
     private Table setUpStage() {
