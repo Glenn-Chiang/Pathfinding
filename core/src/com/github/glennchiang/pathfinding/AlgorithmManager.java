@@ -19,9 +19,7 @@ public class AlgorithmManager {
         PathfindingAlgorithm aStar = new AStarAlgorithm();
         PathfindingAlgorithm greedy = new GreedyAlgorithm();
         PathfindingAlgorithm dijkstra = new DijkstraAlgorithm();
-        List<PathfindingAlgorithm> algorithms = Arrays.asList(aStar, greedy, dijkstra);
-        this.algorithms = algorithms;
-        selectedAlgorithm = greedy;
+        this.algorithms = Arrays.asList(aStar, greedy, dijkstra);
     }
 
     public AlgorithmSolution runAlgorithm(Grid grid) {

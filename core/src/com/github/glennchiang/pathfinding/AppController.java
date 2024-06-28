@@ -11,6 +11,7 @@ public class AppController implements AlgorithmVisualizer.Listener {
     public AppController(Grid grid, AlgorithmManager algorithmManager, AlgorithmVisualizer visualizer) {
         this.grid = grid;
         this.algorithmManager = algorithmManager;
+        this.algorithmManager.setSelectedAlgorithm(0);
         this.visualizer = visualizer;
         visualizer.registerListener(this);
     }

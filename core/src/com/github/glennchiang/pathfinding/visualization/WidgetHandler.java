@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 import com.github.glennchiang.pathfinding.AlgorithmManager;
 import com.github.glennchiang.pathfinding.AppController;
+import com.github.glennchiang.pathfinding.algorithms.DistanceMetric;
 import com.github.glennchiang.pathfinding.algorithms.PathfindingAlgorithm;
 
 public class WidgetHandler implements AlgorithmVisualizer.Listener {
@@ -33,15 +34,29 @@ public class WidgetHandler implements AlgorithmVisualizer.Listener {
         }
 
         Label algorithmLabel = widgetFactory.createLabel("Algorithm:");
-        SelectBox<String> selectBox = widgetFactory.createSelectBox(algorithmNames);
-//        selectBox.getScrollPane()
+        SelectBox<String> algorithmSelectBox = widgetFactory.createSelectBox(algorithmNames);
 
         // Set selected algorithm to the default algorithm of the algorithm manager
-        selectBox.setSelected(algorithmManager.getSelectedAlgorithm().getName());
-        selectBox.addListener(new ChangeListener() {
+        algorithmSelectBox.setSelected(algorithmManager.getSelectedAlgorithm().getName());
+        algorithmSelectBox.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                algorithmManager.setSelectedAlgorithm(selectBox.getSelectedIndex());
+                algorithmManager.setSelectedAlgorithm(algorithmSelectBox.getSelectedIndex());
+            }
+        });
+
+        // Configure distance metric dropdown
+        Label distanceMetricLabel = widgetFactory.createLabel("Distance metric:");
+        Array<String> distanceMetricNames = new Array<>();
+        for (DistanceMetric metric: DistanceMetric.values()) {
+            distanceMetricNames.add(metric.name());
+        }
+        SelectBox<String> distanceMetricSelectBox = widgetFactory.createSelectBox(distanceMetricNames);
+        distanceMetricSelectBox.setSelected(algorithmManager.getDistanceMetric().name());
+        distanceMetricSelectBox.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                algorithmManager.setDistanceMetric(DistanceMetric.valueOf(distanceMetricSelectBox.getSelected()));
             }
         });
 
@@ -65,15 +80,21 @@ public class WidgetHandler implements AlgorithmVisualizer.Listener {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 appController.reset();
-                runButton.setChecked(true);
+                setToRun();
             }
         });
 
-        // Add widgets to table
+        // Add algorithm dropdown
         table.add(algorithmLabel).spaceBottom(8).width(80).height(30).fill();
-        table.add(selectBox).spaceBottom(8).width(80).height(30).fill();
+        table.add(algorithmSelectBox).spaceBottom(8).width(80).height(30).fill();
+
+        // Add DistanceMetric dropdown
+        table.add(distanceMetricLabel);
+        table.add(distanceMetricSelectBox);
+
         table.row();
 
+        // Add run and reset buttons
         table.add(runButton).width(80).height(30).space(4);
         table.add(resetButton).width(80).height(30).left();
     }

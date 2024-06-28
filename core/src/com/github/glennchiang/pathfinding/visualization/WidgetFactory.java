@@ -21,6 +21,7 @@ public class WidgetFactory {
 
         setDefaultTexture();
         setDefaultFont();
+        setDefaultLabel();
     }
 
     public static WidgetFactory getInstance() {
@@ -37,11 +38,14 @@ public class WidgetFactory {
         pixmap.fill();
         skin.add("white", new Texture(pixmap));
     }
-    
-    public Label createLabel(String text) {
+
+    private void setDefaultLabel() {
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = useFont();
         skin.add("default", labelStyle);
+    }
+
+    public Label createLabel(String text) {
         return new Label(text, skin);
     }
     

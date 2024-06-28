@@ -15,12 +15,10 @@ public class MetricsDisplayer {
         table = new Table();
         table.top().padTop(16);
 
-        Label.LabelStyle style = new Label.LabelStyle();
-        style.font = new BitmapFont(); // TODO: use nicer font
+        WidgetFactory widgetFactory = WidgetFactory.getInstance();
 
-        style.fontColor = Color.WHITE;
-        distanceLabel = new Label("Distance: 0", style);
-        visitedLabel = new Label("Visited nodes: 0", style);
+        distanceLabel = widgetFactory.createLabel("Distance: 0");
+        visitedLabel = widgetFactory.createLabel("Visited: 0");
 
         table.add(distanceLabel).expandX();
         table.add(visitedLabel).expandX();
