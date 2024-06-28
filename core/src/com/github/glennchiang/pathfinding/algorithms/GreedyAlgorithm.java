@@ -10,6 +10,6 @@ public class GreedyAlgorithm extends PathfindingAlgorithm {
 
     @Override
     public String getName() {
-        return "Greedy BFS";
+        return "Greedy";
     }
 }

@@ -13,7 +13,7 @@ import com.github.glennchiang.pathfinding.visualization.*;
 
 public class Pathfinding extends ApplicationAdapter {
     public final static int SCREEN_WIDTH = 800;
-    public final static int SCREEN_HEIGHT = 800;
+    public final static int SCREEN_HEIGHT = 600;
 
     private OrthographicCamera camera;
     private Viewport viewport;
@@ -40,7 +40,8 @@ public class Pathfinding extends ApplicationAdapter {
         // Visual representation of grid and algorithm
         int gridWidth = 640;
         int gridHeight = 400;
-        visualGrid = new GridDisplayer((SCREEN_WIDTH - gridWidth) / 2, (SCREEN_HEIGHT - gridHeight) / 2 - 100,
+        visualGrid = new GridDisplayer((SCREEN_WIDTH - gridWidth) / 2,
+                (SCREEN_HEIGHT - gridHeight) / 2,
                 gridWidth, gridHeight, grid, shapeRenderer);
 
         metricsDisplayer = new MetricsDisplayer();
@@ -55,7 +56,7 @@ public class Pathfinding extends ApplicationAdapter {
         AppController appController = new AppController(grid, algorithmManager, visualizer);
 
         widgetHandler = new WidgetHandler(appController, visualizer);
-        widgetHandler.addToLayout(rootTable, gridWidth, 300);
+        widgetHandler.addToLayout(rootTable, gridWidth, 100);
         rootTable.row();
         metricsDisplayer.addToLayout(rootTable, gridWidth, 100);
     }

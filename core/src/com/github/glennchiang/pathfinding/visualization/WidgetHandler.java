@@ -16,24 +16,26 @@ public class WidgetHandler implements AlgorithmVisualizer.Listener {
     private final TextButton runButton;
 
     public WidgetHandler(AppController appController, AlgorithmVisualizer visualizer) {
+        // Subscribe to algorithm visualizer to be notified when visualizations are completed
         visualizer.registerListener(this);
 
         table = new Table();
-        table.bottom().left().padBottom(4);
-        table.setDebug(true);
+        table.bottom().left().padBottom(8);
+//        table.setDebug(true);
 
         widgetFactory = WidgetFactory.getInstance();
 
-        AlgorithmManager algorithmManager = appController.algorithmManager;
-
         // Configure algorithm dropdown
+        AlgorithmManager algorithmManager = appController.algorithmManager;
         Array<String> algorithmNames = new Array<>();
         for (PathfindingAlgorithm algorithm: algorithmManager.getAlgorithms()) {
             algorithmNames.add(algorithm.getName());
         }
 
         Label algorithmLabel = widgetFactory.createLabel("Algorithm:");
-        SelectBox<String> selectBox = WidgetFactory.getInstance().createSelectBox(algorithmNames);
+        SelectBox<String> selectBox = widgetFactory.createSelectBox(algorithmNames);
+//        selectBox.getScrollPane()
+
         // Set selected algorithm to the default algorithm of the algorithm manager
         selectBox.setSelected(algorithmManager.getSelectedAlgorithm().getName());
         selectBox.addListener(new ChangeListener() {
@@ -42,10 +44,6 @@ public class WidgetHandler implements AlgorithmVisualizer.Listener {
                 algorithmManager.setSelectedAlgorithm(selectBox.getSelectedIndex());
             }
         });
-
-        table.add(algorithmLabel);
-        table.add(selectBox);
-        table.row();
 
         // Configure run/pause button
         runButton = widgetFactory.createRunButton();
@@ -71,8 +69,13 @@ public class WidgetHandler implements AlgorithmVisualizer.Listener {
             }
         });
 
+        // Add widgets to table
+        table.add(algorithmLabel).spaceBottom(8).width(80).height(30).fill();
+        table.add(selectBox).spaceBottom(8).width(80).height(30).fill();
+        table.row();
+
         table.add(runButton).width(80).height(30).space(4);
-        table.add(resetButton).width(80).height(30);
+        table.add(resetButton).width(80).height(30).left();
     }
 
     @Override

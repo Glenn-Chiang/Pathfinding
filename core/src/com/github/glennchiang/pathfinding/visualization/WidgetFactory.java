@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 
 public class WidgetFactory {
@@ -50,14 +51,24 @@ public class WidgetFactory {
 
         List.ListStyle listStyle = new List.ListStyle();
         listStyle.background = useTexture(Color.BLACK);
-        listStyle.selection = useTexture(Color.BLUE);
+        listStyle.selection = useTexture(Color.BLACK);
+        listStyle.selection.setTopHeight(8);
+        listStyle.selection.setBottomHeight(8);
+        listStyle.selection.setLeftWidth(8);
+        listStyle.selection.setRightWidth(8);
+        listStyle.fontColorSelected = Color.valueOf("#03A9F4");
         listStyle.font = useFont();
         style.listStyle = listStyle;
 
-        style.background = useTexture(Color.BLACK);
+        style.background = useTexture(Color.valueOf("#29B6F6"));
+        style.background.setTopHeight(8);
+        style.background.setBottomHeight(8);
+        style.background.setLeftWidth(8);
+        style.background.setRightWidth(8);
         style.scrollStyle = new ScrollPane.ScrollPaneStyle();
 
         SelectBox<String> selectBox = new SelectBox<>(style);
+        selectBox.setAlignment(Align.center);
         selectBox.setItems(items);
         return selectBox;
     }
