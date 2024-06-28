@@ -5,4 +5,9 @@ public class DijkstraAlgorithm extends PathfindingAlgorithm {
     protected int getCost(Node node) {
         return node.distanceFromStart;
     }
+
+    @Override
+    public String getName() {
+        return "Dijkstra's";
+    }
 }

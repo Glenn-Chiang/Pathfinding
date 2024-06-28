@@ -5,11 +5,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
-public class VisualizerControls {
+public class WidgetController {
     private Table table;
     private final AlgorithmVisualizer algorithmVisualizer;
 
-    public VisualizerControls(AlgorithmVisualizer algorithmVisualizer) {
+    public WidgetController(AlgorithmVisualizer algorithmVisualizer) {
         table = new Table();
         table.bottom().left().padBottom(4);
         table.setDebug(true);

@@ -10,10 +10,11 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.glennchiang.pathfinding.algorithms.*;
-import com.github.glennchiang.pathfinding.visualization.AlgorithmVisualizer;
-import com.github.glennchiang.pathfinding.visualization.MetricsDisplayer;
-import com.github.glennchiang.pathfinding.visualization.GridDisplayer;
-import com.github.glennchiang.pathfinding.visualization.VisualizerControls;
+import com.github.glennchiang.pathfinding.visualization.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Pathfinding extends ApplicationAdapter {
     public final static int SCREEN_WIDTH = 800;
@@ -28,7 +29,7 @@ public class Pathfinding extends ApplicationAdapter {
     private GridDisplayer visualGrid;
     private AlgorithmVisualizer visualizer;
     private MetricsDisplayer metricsDisplayer;
-    private VisualizerControls visualizerControls;
+    private WidgetController visualizerControls;
 
     @Override
     public void create() {
@@ -49,22 +50,24 @@ public class Pathfinding extends ApplicationAdapter {
 
         metricsDisplayer = new MetricsDisplayer();
         visualizer = new AlgorithmVisualizer(visualGrid, metricsDisplayer);
-        visualizerControls = new VisualizerControls(visualizer);
+        visualizerControls = new WidgetController(visualizer);
 
         visualizerControls.addToLayout(rootTable, gridWidth, 300);
         rootTable.row();
         metricsDisplayer.addToLayout(rootTable, gridWidth, 100);
 
+        // Initialize start and target cells and obstacle positions
         setUpGrid();
 
-        Pathfinder aStar = new AStarAlgorithm();
-        Pathfinder greedy = new GreedyAlgorithm();
-        Pathfinder dijkstra = new DijkstraAlgorithm();
-        Pathfinder[] algorithms = new Pathfinder[]{ aStar, greedy, dijkstra };
+        // Initialize list of available algorithms to select from
+        PathfindingAlgorithm aStar = new AStarAlgorithm();
+        PathfindingAlgorithm greedy = new GreedyAlgorithm();
+        PathfindingAlgorithm dijkstra = new DijkstraAlgorithm();
+        List<PathfindingAlgorithm> algorithms = Arrays.asList(aStar, greedy, dijkstra);
+        AlgorithmManager algorithmManager = new AlgorithmManager(algorithms);
 
-        AlgorithmSolution solution = aStar.findPath(grid);
+        AlgorithmSolution solution = algorithmManager.runAlgorithm(grid);
         visualizer.setAlgorithmSolution(solution);
-
     }
 
     private Table setUpStage() {

@@ -17,4 +17,9 @@ public class AStarAlgorithm extends PathfindingAlgorithm {
                 .thenComparingInt(this::getDistanceToTarget));
         return bestNode.orElse(null);
     }
+
+    @Override
+    public String getName() {
+        return "A Star";
+    }
 }

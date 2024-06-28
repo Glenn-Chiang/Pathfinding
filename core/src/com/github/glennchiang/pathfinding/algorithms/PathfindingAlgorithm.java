@@ -12,12 +12,19 @@ public abstract class PathfindingAlgorithm implements Pathfinder {
     private final Set<Node> openNodes = new HashSet<>(); // Nodes that we are interested to explore
     private final Set<Node> closedNodes = new HashSet<>(); // Nodes that we are no longer interested in exploring
 
-    protected DistanceMetric distanceMetric = DistanceMetric.EUCLIDEAN; // Determines how distance is measured
+    public DistanceMetric distanceMetric = DistanceMetric.EUCLIDEAN; // Determines how distance is measured
 
-    public final AlgorithmSolution findPath(Grid grid) {
-        // Clear any state from previous solution
+    // Clear any previous solution state
+    public void reset() {
         openNodes.clear();
         closedNodes.clear();
+        nodeGraph = null;
+        targetRow = 0;
+        targetCol = 0;
+    }
+
+    public final AlgorithmSolution findPath(Grid grid) {
+        reset();
 
         // Initialize data for the given terrain grid
         int startRow = grid.getStartRow();
@@ -145,4 +152,7 @@ public abstract class PathfindingAlgorithm implements Pathfinder {
         Set<Node> closedNodes = new HashSet<>(this.closedNodes);
         return new AlgorithmStep(currentPath, openNodes, closedNodes);
     }
+
+    // Return user-friendly name of algorithm
+    public abstract String getName();
 }

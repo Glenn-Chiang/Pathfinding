@@ -7,4 +7,9 @@ public class GreedyAlgorithm extends PathfindingAlgorithm {
     protected int getCost(Node node) {
         return getDistanceToTarget(node);
     }
+
+    @Override
+    public String getName() {
+        return "Greedy BFS";
+    }
 }

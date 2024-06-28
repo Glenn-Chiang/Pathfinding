@@ -3,6 +3,7 @@ package com.github.glennchiang.pathfinding.visualization;
 import com.badlogic.gdx.Gdx;
 import com.github.glennchiang.pathfinding.algorithms.AlgorithmSolution;
 import com.github.glennchiang.pathfinding.algorithms.AlgorithmStep;
+import com.github.glennchiang.pathfinding.algorithms.PathfindingAlgorithm;
 
 import java.util.Iterator;
 
@@ -20,6 +21,7 @@ public class AlgorithmVisualizer {
     }
 
     private State state = State.STOPPED;
+
 
     public AlgorithmVisualizer(GridDisplayer grid, MetricsDisplayer metricsDisplayer) {
         this.grid = grid;
