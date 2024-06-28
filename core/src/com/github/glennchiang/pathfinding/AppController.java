@@ -63,8 +63,7 @@ public class AppController implements AlgorithmVisualizer.Listener {
     // When visualizer has completed the visualization of the current algorithm solution,
     // change to inactive state
     @Override
-    public void onCompleteVisualization() {
-        System.out.println("finished vis");
+    public void onVisualizationComplete() {
         state = State.INACTIVE;
     }
 }

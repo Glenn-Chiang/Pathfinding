@@ -9,11 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.github.glennchiang.pathfinding.algorithms.*;
 import com.github.glennchiang.pathfinding.visualization.*;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class Pathfinding extends ApplicationAdapter {
     public final static int SCREEN_WIDTH = 800;
@@ -28,7 +24,7 @@ public class Pathfinding extends ApplicationAdapter {
     private GridDisplayer visualGrid;
     private AlgorithmVisualizer visualizer;
     private MetricsDisplayer metricsDisplayer;
-    private WidgetHandler visualizerControls;
+    private WidgetHandler widgetHandler;
 
     @Override
     public void create() {
@@ -58,8 +54,8 @@ public class Pathfinding extends ApplicationAdapter {
 
         AppController appController = new AppController(grid, algorithmManager, visualizer);
 
-        visualizerControls = new WidgetHandler(appController);
-        visualizerControls.addToLayout(rootTable, gridWidth, 300);
+        widgetHandler = new WidgetHandler(appController, visualizer);
+        widgetHandler.addToLayout(rootTable, gridWidth, 300);
         rootTable.row();
         metricsDisplayer.addToLayout(rootTable, gridWidth, 100);
     }

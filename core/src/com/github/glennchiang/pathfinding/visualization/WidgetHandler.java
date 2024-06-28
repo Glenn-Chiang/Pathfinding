@@ -6,28 +6,29 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.github.glennchiang.pathfinding.AppController;
 
-public class WidgetHandler {
+public class WidgetHandler implements AlgorithmVisualizer.Listener {
     private Table table;
+    private final TextButton runButton;
 
-    public WidgetHandler(AppController appController) {
+    public WidgetHandler(AppController appController, AlgorithmVisualizer visualizer) {
+        visualizer.registerListener(this);
+
         table = new Table();
         table.bottom().left().padBottom(4);
         table.setDebug(true);
 
         WidgetFactory widgetFactory = WidgetFactory.getInstance();
 
-        TextButton runButton = widgetFactory.createRunButton();
+        runButton = widgetFactory.createRunButton();
         runButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                if (appController.getState() != AppController.State.RUNNING) {
-                    // Start running and change to pause button
-                    runButton.setText("Pause");
-                } else {
-                    // Pause and change to run button
-                    runButton.setText("Run");
-                }
                 appController.toggleRun();
+                if (appController.getState() == AppController.State.RUNNING) {
+                    setToPause();
+                } else {
+                    setToRun();
+                }
             }
         });
 
@@ -43,6 +44,19 @@ public class WidgetHandler {
 
         table.add(runButton).width(80).height(30).space(4);
         table.add(resetButton).width(80).height(30);
+    }
+
+    @Override
+    public void onVisualizationComplete() {
+        setToRun();
+    }
+
+    public void setToRun() {
+        runButton.setText("Run");
+    }
+
+    public void setToPause() {
+        runButton.setText("Pause");
     }
 
     public void addToLayout(Table rootTable, int width, int height) {

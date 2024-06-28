@@ -24,7 +24,7 @@ public class AlgorithmVisualizer {
     private State state = State.INACTIVE;
 
     public interface Listener extends EventListener {
-        void onCompleteVisualization();
+        void onVisualizationComplete();
     }
 
     private final List<Listener> listeners = new ArrayList<>();
@@ -40,7 +40,7 @@ public class AlgorithmVisualizer {
     // Notify all listeners that the visualizer has completed
     public void publishComplete() {
         for (Listener listener: listeners) {
-            listener.onCompleteVisualization();
+            listener.onVisualizationComplete();
         }
     }
 
