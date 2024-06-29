@@ -97,7 +97,7 @@ public class WidgetManager implements AlgorithmVisualizer.Listener {
 
         // Add algorithm dropdown
         table.add(algorithmLabel).spaceBottom(8).width(80).height(30).fill();
-        table.add(algorithmSelectBox).spaceBottom(8).width(80).height(30).fill();
+        table.add(algorithmSelectBox).spaceBottom(8).width(100).height(30).fill();
 
         // Add DistanceMetric dropdown
         table.add(distanceMetricLabel).spaceBottom(8).spaceLeft(16).spaceRight(8);
@@ -106,7 +106,7 @@ public class WidgetManager implements AlgorithmVisualizer.Listener {
         table.row();
 
         // Add run and reset buttons
-        table.add(runButton).width(80).height(30).space(4);
+        table.add(runButton).width(80).height(30).space(8);
         table.add(resetButton).width(80).height(30).left();
 
         // Add regenerate button

@@ -8,17 +8,18 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.glennchiang.pathfinding.AppController;
 import com.github.glennchiang.pathfinding.visualization.GridDisplayer;
 
 public class InputManager implements InputProcessor {
     public final InputMultiplexer multiplexer = new InputMultiplexer();
-    private final Camera camera;
+    private final Viewport viewport;
     private final AppController appController;
     private final GridDisplayer gridDisplayer;
 
-    public InputManager(Camera camera, Stage stage, AppController appController, GridDisplayer gridDisplayer) {
-        this.camera = camera;
+    public InputManager(Viewport viewport,Stage stage, AppController appController, GridDisplayer gridDisplayer) {
+        this.viewport = viewport;
         this.appController = appController;
         this.gridDisplayer = gridDisplayer;
         // Add stage first to prioritize inputs on UI widgets
@@ -31,9 +32,8 @@ public class InputManager implements InputProcessor {
         // Disabled when visualizer is running
         if (appController.getState() != AppController.State.INACTIVE) return false;
 
-        Vector3 touchPos = new Vector3();
-        touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-        camera.unproject(touchPos);
+        Vector3 touchPos = new Vector3(screenX, screenY, 0);
+        viewport. unproject(touchPos);
         Vector2 touchPos2D = new Vector2(touchPos.x, touchPos.y);
 
         switch (button) {

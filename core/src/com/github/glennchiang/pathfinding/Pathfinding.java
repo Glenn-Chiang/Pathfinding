@@ -72,7 +72,7 @@ public class Pathfinding extends ApplicationAdapter {
         metricsDisplayer.addToLayout(rootTable, gridWidth, 100);
 
         // Set up input processor
-        InputManager inputManager = new InputManager(camera, stage, appController, gridDisplayer);
+        InputManager inputManager = new InputManager(viewport, stage, appController, gridDisplayer);
         Gdx.input.setInputProcessor(inputManager.multiplexer);
     }
 

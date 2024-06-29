@@ -8,6 +8,6 @@ public class DijkstraAlgorithm extends PathfindingAlgorithm {
 
     @Override
     public String getName() {
-        return "Dijkstra's";
+        return "Dijkstra";
     }
 }
