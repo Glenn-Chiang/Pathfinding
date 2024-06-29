@@ -51,10 +51,10 @@ public class Grid {
            for (int col = 0; col < numCols; col++) {
                // Mark obstacles
                if (walker.isObstacle(row, col)) {
-                   setObstacle(row, col);
+                   grid[row][col] = CellType.OBSTACLE;
                // Mark empty cells
                } else {
-                   setEmpty(row, col);
+                   grid[row][col] = CellType.EMPTY;
                }
            }
        }
@@ -72,12 +72,15 @@ public class Grid {
         return cells.get((int) (Math.random() * cells.size()));
     }
 
-    // Change the current start cell to an empty cell
+
     // Set the given position as the new start cell, only if it is empty
     public void setStart(int row, int col) {
         if (getCell(row, col) != CellType.EMPTY) return;
 
-        setEmpty(startRow, startCol);
+        // Set previous start cell to empty
+        if (getCell(startRow, startCol) == CellType.START) {
+            grid[startRow][startCol] = CellType.EMPTY;
+        }
         grid[row][col] = CellType.START;
         startRow = row;
         startCol = col;
@@ -86,18 +89,13 @@ public class Grid {
     public void setTarget(int row, int col) {
         if (getCell(row, col) != CellType.EMPTY) return;
 
-        setEmpty(targetRow, targetCol);
+        // Set previous target cell to empty
+        if (getCell(targetRow, targetCol) == CellType.TARGET) {
+            grid[targetRow][targetCol] = CellType.EMPTY;
+        }
         grid[row][col] = CellType.TARGET;
         targetRow = row;
         targetCol = col;
-    }
-
-    private void setEmpty(int row, int col) {
-        grid[row][col] = CellType.EMPTY;
-    }
-
-    private void setObstacle(int row, int col) {
-        grid[row][col] = CellType.OBSTACLE;
     }
 
     public CellType getCell(int row, int col) {
