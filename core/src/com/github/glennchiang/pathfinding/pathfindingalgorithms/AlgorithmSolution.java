@@ -1,6 +1,5 @@
-package com.github.glennchiang.pathfinding.algorithms;
+package com.github.glennchiang.pathfinding.pathfindingalgorithms;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AlgorithmSolution {

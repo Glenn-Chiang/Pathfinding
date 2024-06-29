@@ -1,4 +1,4 @@
-package com.github.glennchiang.pathfinding.visualization;
+package com.github.glennchiang.pathfinding.ui;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -100,6 +100,15 @@ public class WidgetFactory {
         buttonStyle.down = useTexture(Color.valueOf("#E53935"));
         buttonStyle.font = useFont();
         return new TextButton("Reset", buttonStyle);
+    }
+
+    public TextButton createRegenerateButton() {
+        TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
+        buttonStyle.up = useTexture(Color.valueOf("#29B6F6"));
+        buttonStyle.down = useTexture(Color.valueOf("#03A9F4"));
+        buttonStyle.disabled = useTexture(Color.SLATE);
+        buttonStyle.font = useFont();
+        return new TextButton("Regenerate grid", buttonStyle);
     }
 
     private void setDefaultFont() {

@@ -2,10 +2,10 @@ package com.github.glennchiang.pathfinding.visualization;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.github.glennchiang.pathfinding.CellType;
-import com.github.glennchiang.pathfinding.Grid;
-import com.github.glennchiang.pathfinding.algorithms.AlgorithmStep;
-import com.github.glennchiang.pathfinding.algorithms.Node;
+import com.github.glennchiang.pathfinding.grid.CellType;
+import com.github.glennchiang.pathfinding.grid.Grid;
+import com.github.glennchiang.pathfinding.pathfindingalgorithms.AlgorithmStep;
+import com.github.glennchiang.pathfinding.pathfindingalgorithms.Node;
 
 import java.awt.*;
 import java.util.List;

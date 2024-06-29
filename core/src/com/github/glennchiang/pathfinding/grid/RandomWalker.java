@@ -1,7 +1,8 @@
-package com.github.glennchiang.pathfinding;
+package com.github.glennchiang.pathfinding.grid;
+
+import com.github.glennchiang.pathfinding.DistanceMetric;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 // Generate a grid with randomly placed obstacles

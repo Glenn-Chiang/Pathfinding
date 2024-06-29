@@ -1,6 +1,4 @@
-package com.github.glennchiang.pathfinding.algorithms;
-
-import java.util.Set;
+package com.github.glennchiang.pathfinding.pathfindingalgorithms;
 
 public class GreedyAlgorithm extends PathfindingAlgorithm {
     @Override

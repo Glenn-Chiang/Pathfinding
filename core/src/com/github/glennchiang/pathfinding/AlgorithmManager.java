@@ -1,6 +1,7 @@
 package com.github.glennchiang.pathfinding;
 
-import com.github.glennchiang.pathfinding.algorithms.*;
+import com.github.glennchiang.pathfinding.grid.Grid;
+import com.github.glennchiang.pathfinding.pathfindingalgorithms.*;
 
 import java.util.Arrays;
 import java.util.Collections;

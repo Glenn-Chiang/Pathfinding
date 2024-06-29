@@ -1,4 +1,4 @@
-package com.github.glennchiang.pathfinding;
+package com.github.glennchiang.pathfinding.grid;
 
 import java.util.List;
 
@@ -52,6 +52,9 @@ public class Grid {
                // Mark obstacles
                if (walker.isObstacle(row, col)) {
                    setObstacle(row, col);
+               // Mark empty cells
+               } else {
+                   setEmpty(row, col);
                }
            }
        }
@@ -63,7 +66,6 @@ public class Grid {
         emptyCells.remove(startCell); // Ensure that target cell is different from start cell
         int[] targetCell = getRandomCell(emptyCells);
         setTarget(targetCell[0], targetCell[1]);
-
     }
 
     private int[] getRandomCell(List<int[]> cells) {
@@ -80,6 +82,10 @@ public class Grid {
         grid[row][col] = CellType.TARGET;
         targetRow = row;
         targetCol = col;
+    }
+
+    private void setEmpty(int row, int col) {
+        grid[row][col] = CellType.EMPTY;
     }
 
     private void setObstacle(int row, int col) {

@@ -1,6 +1,8 @@
-package com.github.glennchiang.pathfinding.algorithms;
+package com.github.glennchiang.pathfinding.pathfindingalgorithms;
 
 import com.github.glennchiang.pathfinding.*;
+import com.github.glennchiang.pathfinding.grid.CellType;
+import com.github.glennchiang.pathfinding.grid.Grid;
 
 import java.util.*;
 

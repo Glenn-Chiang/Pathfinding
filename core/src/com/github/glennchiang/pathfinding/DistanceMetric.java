@@ -34,7 +34,7 @@ public enum DistanceMetric {
         directions = getDirections();
     }
 
-    abstract int[][] getDirections();
+    public abstract int[][] getDirections();
 
     public abstract int getDistance(int rowA, int colA, int rowB, int colB);
 }

@@ -1,4 +1,4 @@
-package com.github.glennchiang.pathfinding.visualization;
+package com.github.glennchiang.pathfinding.ui;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -7,9 +7,10 @@ import com.badlogic.gdx.utils.Array;
 import com.github.glennchiang.pathfinding.AlgorithmManager;
 import com.github.glennchiang.pathfinding.AppController;
 import com.github.glennchiang.pathfinding.DistanceMetric;
-import com.github.glennchiang.pathfinding.algorithms.PathfindingAlgorithm;
+import com.github.glennchiang.pathfinding.pathfindingalgorithms.PathfindingAlgorithm;
+import com.github.glennchiang.pathfinding.visualization.AlgorithmVisualizer;
 
-public class WidgetHandler implements AlgorithmVisualizer.Listener {
+public class WidgetManager implements AlgorithmVisualizer.Listener {
     private Table table;
 
     private final WidgetFactory widgetFactory;
@@ -17,16 +18,13 @@ public class WidgetHandler implements AlgorithmVisualizer.Listener {
     private final AppController appController;
 
     private final TextButton runButton;
+    private final TextButton regenerateButton;
     private final SelectBox<String> algorithmSelectBox;
     private final SelectBox<String> distanceMetricSelectBox;
 
-    public WidgetHandler(AppController appController, AlgorithmVisualizer visualizer) {
+    public WidgetManager(AppController appController, AlgorithmVisualizer visualizer) {
         // Subscribe to algorithm visualizer to be notified when visualizations are completed
         visualizer.registerListener(this);
-
-        table = new Table();
-        table.bottom().left().padBottom(8);
-//        table.setDebug(true);
 
         widgetFactory = WidgetFactory.getInstance();
 
@@ -84,6 +82,19 @@ public class WidgetHandler implements AlgorithmVisualizer.Listener {
             }
         });
 
+        // Configure button to regenerate grid
+        regenerateButton = widgetFactory.createRegenerateButton();
+        regenerateButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                appController.grid.generate();
+            }
+        });
+
+        table = new Table();
+        table.bottom().left().padBottom(8);
+//        table.setDebug(true);
+
         // Add algorithm dropdown
         table.add(algorithmLabel).spaceBottom(8).width(80).height(30).fill();
         table.add(algorithmSelectBox).spaceBottom(8).width(80).height(30).fill();
@@ -97,6 +108,9 @@ public class WidgetHandler implements AlgorithmVisualizer.Listener {
         // Add run and reset buttons
         table.add(runButton).width(80).height(30).space(4);
         table.add(resetButton).width(80).height(30).left();
+
+        // Add regenerate button
+        table.add(regenerateButton).width(120).fill().spaceLeft(16);
     }
 
     private void onToggleRun() {
@@ -105,6 +119,7 @@ public class WidgetHandler implements AlgorithmVisualizer.Listener {
             setPauseButton();
             algorithmSelectBox.setDisabled(true);
             distanceMetricSelectBox.setDisabled(true);
+            regenerateButton.setDisabled(true);
         } else {
             setRunButton();
         }
@@ -116,6 +131,7 @@ public class WidgetHandler implements AlgorithmVisualizer.Listener {
         // Enable select boxes for algorithm manager
         algorithmSelectBox.setDisabled(false);
         distanceMetricSelectBox.setDisabled(false);
+        regenerateButton.setDisabled(false);
     }
 
     @Override

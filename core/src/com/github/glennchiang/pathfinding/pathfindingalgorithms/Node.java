@@ -1,4 +1,4 @@
-package com.github.glennchiang.pathfinding.algorithms;
+package com.github.glennchiang.pathfinding.pathfindingalgorithms;
 
 public class Node {
     public final int row;

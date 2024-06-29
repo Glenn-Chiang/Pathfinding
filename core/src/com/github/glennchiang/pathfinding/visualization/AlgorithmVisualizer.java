@@ -1,8 +1,8 @@
 package com.github.glennchiang.pathfinding.visualization;
 
 import com.badlogic.gdx.Gdx;
-import com.github.glennchiang.pathfinding.algorithms.AlgorithmSolution;
-import com.github.glennchiang.pathfinding.algorithms.AlgorithmStep;
+import com.github.glennchiang.pathfinding.pathfindingalgorithms.AlgorithmSolution;
+import com.github.glennchiang.pathfinding.pathfindingalgorithms.AlgorithmStep;
 
 import java.util.ArrayList;
 import java.util.EventListener;

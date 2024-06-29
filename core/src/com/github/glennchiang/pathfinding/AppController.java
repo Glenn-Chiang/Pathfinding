@@ -1,11 +1,12 @@
 package com.github.glennchiang.pathfinding;
 
-import com.github.glennchiang.pathfinding.algorithms.AlgorithmSolution;
+import com.github.glennchiang.pathfinding.grid.Grid;
+import com.github.glennchiang.pathfinding.pathfindingalgorithms.AlgorithmSolution;
 import com.github.glennchiang.pathfinding.visualization.AlgorithmVisualizer;
 
 // Top-level controller coordinating between AlgorithmManager and AlgorithmVisualizer
 public class AppController implements AlgorithmVisualizer.Listener {
-    private final Grid grid;
+    public final Grid grid;
     public final AlgorithmManager algorithmManager;
     private final AlgorithmVisualizer visualizer;
     public AppController(Grid grid, AlgorithmManager algorithmManager, AlgorithmVisualizer visualizer) {

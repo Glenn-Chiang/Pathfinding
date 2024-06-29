@@ -1,4 +1,4 @@
-package com.github.glennchiang.pathfinding;
+package com.github.glennchiang.pathfinding.grid;
 
 public enum CellType {
     EMPTY,

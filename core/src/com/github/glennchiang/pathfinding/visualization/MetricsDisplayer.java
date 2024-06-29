@@ -1,10 +1,9 @@
 package com.github.glennchiang.pathfinding.visualization;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.github.glennchiang.pathfinding.algorithms.AlgorithmStep;
+import com.github.glennchiang.pathfinding.pathfindingalgorithms.AlgorithmStep;
+import com.github.glennchiang.pathfinding.ui.WidgetFactory;
 
 // Displays metrics for the algorithm being visualized
 public class MetricsDisplayer {
