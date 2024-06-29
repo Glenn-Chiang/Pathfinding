@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.glennchiang.pathfinding.grid.Grid;
+import com.github.glennchiang.pathfinding.ui.InputManager;
 import com.github.glennchiang.pathfinding.ui.WidgetManager;
 import com.github.glennchiang.pathfinding.visualization.*;
 
@@ -40,7 +41,11 @@ public class Pathfinding extends ApplicationAdapter {
         viewport = new FitViewport(SCREEN_WIDTH, SCREEN_HEIGHT, camera);
         shapeRenderer = new ShapeRenderer();
 
-        Table rootTable = setUpStage();
+        // Set up stage
+        stage = new Stage(viewport);
+        Table rootTable = new Table();
+        rootTable.setFillParent(true);
+        stage.addActor(rootTable);
 
         // Initialize grid for pathfinder to act on
         grid = new Grid(40, 64);
@@ -54,30 +59,21 @@ public class Pathfinding extends ApplicationAdapter {
                 gridWidth, gridHeight, grid, shapeRenderer);
 
         metricsDisplayer = new MetricsDisplayer();
+
         visualizer = new AlgorithmVisualizer(gridDisplayer, metricsDisplayer);
 
         AlgorithmManager algorithmManager = new AlgorithmManager();
-
         appController = new AppController(grid, algorithmManager, visualizer);
 
+        // Set up widgets
         widgetHandler = new WidgetManager(appController, visualizer);
         widgetHandler.addToLayout(rootTable, gridWidth, 100);
         rootTable.row();
         metricsDisplayer.addToLayout(rootTable, gridWidth, 100);
-    }
 
-    private Table setUpStage() {
-        stage = new Stage(viewport);
-        Gdx.input.setInputProcessor(stage);
-
-        Table rootTable = new Table();
-        rootTable.setFillParent(true);
-        stage.addActor(rootTable);
-
-        // Show layout lines for debugging
-//        rootTable.setDebug(true);
-
-        return rootTable;
+        // Set up input processor
+        InputManager inputManager = new InputManager(camera, stage, appController, gridDisplayer);
+        Gdx.input.setInputProcessor(inputManager.multiplexer);
     }
 
     @Override
@@ -87,14 +83,6 @@ public class Pathfinding extends ApplicationAdapter {
 
 		gridDisplayer.renderGrid();
         visualizer.update();
-
-        // Process inputs on grid display, only when visualizer is not running
-        if (appController.getState() == AppController.State.INACTIVE && Gdx.input.isTouched()) {
-            Vector3 touchPos = new Vector3();
-            touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            camera.unproject(touchPos); // Convert screen coordinates to world coordinates
-            gridDisplayer.handleTouch(new Vector2(touchPos.x, touchPos.y));
-        }
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();

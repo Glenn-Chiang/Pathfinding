@@ -1,7 +1,5 @@
 package com.github.glennchiang.pathfinding.visualization;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -37,19 +35,22 @@ public class GridDisplayer {
         }
     }
 
-    public void handleTouch(Vector2 touchPos) {
+    public void handleStartTouch(Vector2 touchPos) {
         for (int row = 0; row < grid.numRows; row++) {
             for (int col = 0; col < grid.numCols; col++) {
                 Rectangle cell = cells[row][col];
-                if (!cell.contains(touchPos.x, touchPos.y)) continue;
-
-                // If user left-clicked this cell, set it to start cell
-                if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+                if (cell.contains(touchPos.x, touchPos.y)) {
                     grid.setStart(row, col);
                 }
+            }
+        }
+    }
 
-                // if user right-clicked this cell, set it to target cell
-                if (Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) {
+    public void handleTargetTouch(Vector2 touchPos) {
+        for (int row = 0; row < grid.numRows; row++) {
+            for (int col = 0; col < grid.numCols; col++) {
+                Rectangle cell = cells[row][col];
+                if (cell.contains(touchPos.x, touchPos.y)) {
                     grid.setTarget(row, col);
                 }
             }
