@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 import com.github.glennchiang.pathfinding.AlgorithmManager;
 import com.github.glennchiang.pathfinding.AppController;
-import com.github.glennchiang.pathfinding.algorithms.DistanceMetric;
+import com.github.glennchiang.pathfinding.DistanceMetric;
 import com.github.glennchiang.pathfinding.algorithms.PathfindingAlgorithm;
 
 public class WidgetHandler implements AlgorithmVisualizer.Listener {
@@ -89,8 +89,8 @@ public class WidgetHandler implements AlgorithmVisualizer.Listener {
         table.add(algorithmSelectBox).spaceBottom(8).width(80).height(30).fill();
 
         // Add DistanceMetric dropdown
-        table.add(distanceMetricLabel).spaceBottom(8).spaceLeft(16).spaceRight(8).height(30);
-        table.add(distanceMetricSelectBox).spaceBottom(8);
+        table.add(distanceMetricLabel).spaceBottom(8).spaceLeft(16).spaceRight(8);
+        table.add(distanceMetricSelectBox).spaceBottom(8).height(30);
 
         table.row();
 

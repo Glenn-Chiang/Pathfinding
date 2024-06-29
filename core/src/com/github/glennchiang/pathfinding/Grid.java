@@ -12,12 +12,15 @@ public class Grid {
     private int targetRow;
     private int targetCol;
 
-    public Grid(int num_rows, int num_cols) {
-        this.numRows = num_rows;
-        this.numCols = num_cols;
-        this.grid = new CellType[num_rows][num_cols];
-        for (int row = 0; row < numRows; row ++) {
-            for (int col = 0; col < numCols; col++) {
+    // The proportion of cells that are obstacles
+    private float obstacleDensity = 0.2f;
+
+    public Grid(int numRows, int numCols) {
+        this.numRows = numRows;
+        this.numCols = numCols;
+        this.grid = new CellType[numRows][numCols];
+        for (int row = 0; row < this.numRows; row ++) {
+            for (int col = 0; col < this.numCols; col++) {
                 grid[row][col] = CellType.EMPTY;
             }
         }
@@ -36,6 +39,22 @@ public class Grid {
         return targetCol;
     }
 
+    // Generate randomly placed obstacles
+    public void generate() {
+        // Decide number of empty cells in the grid
+        int emptyCount = (int) ((1 - obstacleDensity) * numRows * numCols);
+       RandomWalker walker = new RandomWalker(numRows, numCols, emptyCount);
+       walker.walk();
+       for (int row = 0; row < numRows; row++) {
+           for (int col = 0; col < numCols; col++) {
+               // Mark obstacles
+               if (walker.isObstacle(row, col)) {
+                   setObstacle(row, col);
+               }
+           }
+       }
+    }
+
     public void setStart(int row, int col) {
         grid[row][col] = CellType.START;
         startRow = row;
@@ -48,23 +67,12 @@ public class Grid {
         targetCol = col;
     }
 
-    public void setObstacle(int row, int col) {
+    private void setObstacle(int row, int col) {
         grid[row][col] = CellType.OBSTACLE;
     }
 
     public CellType getCell(int row, int col) {
         return grid[row][col];
-    }
-
-    public void setObstacles() {
-        // TODO: Randomize obstacle positions?
-        setObstacle(5, 5);
-        setObstacle(5, 6);
-        setObstacle(4, 6);
-        setObstacle(4, 7);
-        setObstacle(3, 7);
-        setObstacle(2, 7);
-        setObstacle(numRows - 1, 0);
     }
 
 }

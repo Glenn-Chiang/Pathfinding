@@ -1,4 +1,4 @@
-package com.github.glennchiang.pathfinding.algorithms;
+package com.github.glennchiang.pathfinding;
 
 public enum DistanceMetric {
     EUCLIDEAN() {

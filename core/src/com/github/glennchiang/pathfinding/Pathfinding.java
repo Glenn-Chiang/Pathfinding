@@ -37,6 +37,8 @@ public class Pathfinding extends ApplicationAdapter {
 
         // Initialize grid for pathfinder to act on
         grid = new Grid(20, 32);
+        grid.generate();
+
         // Visual representation of grid and algorithm
         int gridWidth = 640;
         int gridHeight = 400;
@@ -46,10 +48,6 @@ public class Pathfinding extends ApplicationAdapter {
 
         metricsDisplayer = new MetricsDisplayer();
         visualizer = new AlgorithmVisualizer(visualGrid, metricsDisplayer);
-
-        // Initialize start and target cells and obstacle positions
-        setUpGrid();
-
 
         AlgorithmManager algorithmManager = new AlgorithmManager();
 
@@ -73,12 +71,6 @@ public class Pathfinding extends ApplicationAdapter {
 //        rootTable.setDebug(true);
 
         return rootTable;
-    }
-
-    private void setUpGrid() {
-        grid.setStart(0, 0);
-        grid.setTarget(grid.numRows - 1, grid.numCols - 1);
-        grid.setObstacles();
     }
 
     @Override
