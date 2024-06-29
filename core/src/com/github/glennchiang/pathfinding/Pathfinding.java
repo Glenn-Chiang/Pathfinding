@@ -2,8 +2,11 @@ package com.github.glennchiang.pathfinding;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -23,10 +26,12 @@ public class Pathfinding extends ApplicationAdapter {
     private Stage stage;
 
     private Grid grid;
-    private GridDisplayer visualGrid;
+    private GridDisplayer gridDisplayer;
     private AlgorithmVisualizer visualizer;
     private MetricsDisplayer metricsDisplayer;
     private WidgetManager widgetHandler;
+
+    private AppController appController;
 
     @Override
     public void create() {
@@ -38,22 +43,22 @@ public class Pathfinding extends ApplicationAdapter {
         Table rootTable = setUpStage();
 
         // Initialize grid for pathfinder to act on
-        grid = new Grid(20, 32);
+        grid = new Grid(40, 64);
         grid.generate();
 
         // Visual representation of grid and algorithm
         int gridWidth = 640;
         int gridHeight = 400;
-        visualGrid = new GridDisplayer((SCREEN_WIDTH - gridWidth) / 2,
+        gridDisplayer = new GridDisplayer((SCREEN_WIDTH - gridWidth) / 2,
                 (SCREEN_HEIGHT - gridHeight) / 2,
                 gridWidth, gridHeight, grid, shapeRenderer);
 
         metricsDisplayer = new MetricsDisplayer();
-        visualizer = new AlgorithmVisualizer(visualGrid, metricsDisplayer);
+        visualizer = new AlgorithmVisualizer(gridDisplayer, metricsDisplayer);
 
         AlgorithmManager algorithmManager = new AlgorithmManager();
 
-        AppController appController = new AppController(grid, algorithmManager, visualizer);
+        appController = new AppController(grid, algorithmManager, visualizer);
 
         widgetHandler = new WidgetManager(appController, visualizer);
         widgetHandler.addToLayout(rootTable, gridWidth, 100);
@@ -80,8 +85,16 @@ public class Pathfinding extends ApplicationAdapter {
         ScreenUtils.clear(0, 0, 0, 1);
         camera.update();
 
-		visualGrid.renderGrid();
+		gridDisplayer.renderGrid();
         visualizer.update();
+
+        // Process inputs on grid display, only when visualizer is not running
+        if (appController.getState() == AppController.State.INACTIVE && Gdx.input.isTouched()) {
+            Vector3 touchPos = new Vector3();
+            touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            camera.unproject(touchPos); // Convert screen coordinates to world coordinates
+            gridDisplayer.handleTouch(new Vector2(touchPos.x, touchPos.y));
+        }
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();

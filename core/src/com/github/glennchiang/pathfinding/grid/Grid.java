@@ -15,7 +15,7 @@ public class Grid {
     private int targetCol;
 
     // The proportion of cells that are obstacles
-    private float obstacleDensity = 0.2f;
+    private float obstacleDensity = 0.4f;
 
     public Grid(int numRows, int numCols) {
         this.numRows = numRows;
@@ -72,13 +72,21 @@ public class Grid {
         return cells.get((int) (Math.random() * cells.size()));
     }
 
+    // Change the current start cell to an empty cell
+    // Set the given position as the new start cell, only if it is empty
     public void setStart(int row, int col) {
+        if (getCell(row, col) != CellType.EMPTY) return;
+
+        setEmpty(startRow, startCol);
         grid[row][col] = CellType.START;
         startRow = row;
         startCol = col;
     }
 
     public void setTarget(int row, int col) {
+        if (getCell(row, col) != CellType.EMPTY) return;
+
+        setEmpty(targetRow, targetCol);
         grid[row][col] = CellType.TARGET;
         targetRow = row;
         targetCol = col;

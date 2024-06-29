@@ -80,10 +80,6 @@ public class AlgorithmVisualizer {
         if (!stepIterator.hasNext()) {
             // Notify any listeners that visualization is complete
             publishComplete();
-            // If a valid path is found, highlight the path
-            if (currentSolution.isValid) {
-                grid.renderSolutionPath(currentSolution.finalPath());
-            }
             state = State.INACTIVE;
             return;
         }

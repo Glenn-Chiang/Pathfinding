@@ -1,14 +1,16 @@
 package com.github.glennchiang.pathfinding.visualization;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.github.glennchiang.pathfinding.grid.CellType;
 import com.github.glennchiang.pathfinding.grid.Grid;
 import com.github.glennchiang.pathfinding.pathfindingalgorithms.AlgorithmStep;
 import com.github.glennchiang.pathfinding.pathfindingalgorithms.Node;
 
 import java.awt.*;
-import java.util.List;
 
 public class GridDisplayer {
     private final ShapeRenderer renderer;
@@ -35,9 +37,28 @@ public class GridDisplayer {
         }
     }
 
-    // Draw the grid, marking out obstacles, start cell and target cell
-    // This method is not affected in any way by the algorithm that is being visualized on the grid
-    // It is only interested in rendering the static obstacle positions and start/target positions
+    public void handleTouch(Vector2 touchPos) {
+        for (int row = 0; row < grid.numRows; row++) {
+            for (int col = 0; col < grid.numCols; col++) {
+                Rectangle cell = cells[row][col];
+                if (!cell.contains(touchPos.x, touchPos.y)) continue;
+
+                // If user left-clicked this cell, set it to start cell
+                if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+                    grid.setStart(row, col);
+                }
+
+                // if user right-clicked this cell, set it to target cell
+                if (Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) {
+                    grid.setTarget(row, col);
+                }
+            }
+        }
+    }
+
+    // Called every frame
+    // Renders the grid, including the start and target cells and the obstacles
+    // Is not affected by the algorithm visualizer
     public void renderGrid() {
         // Draw cells
         for (int row = 0; row < grid.numRows; row++) {
@@ -113,10 +134,4 @@ public class GridDisplayer {
         drawCellBorder(cell);
     }
 
-    // Highlight the final path found by the solution, from start node to target node
-    public void renderSolutionPath(List<Node> solutionPath) {
-//        for (Node node: solutionPath) {
-//            markNode(node, Color.GREEN);
-//        }
-    }
 }

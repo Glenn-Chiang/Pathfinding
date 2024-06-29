@@ -18,9 +18,10 @@ public class AppController implements AlgorithmVisualizer.Listener {
     }
 
     public enum State {
-        INACTIVE,
+        INACTIVE, // No visualization shown
         RUNNING,
         PAUSED,
+        COMPLETED // Path visualization has been completed and is still being shown
     }
 
     private State state = State.INACTIVE;
@@ -33,14 +34,8 @@ public class AppController implements AlgorithmVisualizer.Listener {
     public void toggleRun() {
         switch (state) {
             case INACTIVE:
-                visualizer.reset();
-
                 state = State.RUNNING;
-                // Run the selected algorithm to find the path on the grid's current setup
-                AlgorithmSolution solution = algorithmManager.runAlgorithm(grid);
-                // Visualize the generated solution
-                visualizer.setAlgorithmSolution(solution);
-                visualizer.run();
+                newRun();
                 break;
 
             // If already running, pause
@@ -54,7 +49,19 @@ public class AppController implements AlgorithmVisualizer.Listener {
                 state = State.RUNNING;
                 visualizer.run();
                 break;
+
+            case COMPLETED:
+                visualizer.reset();
+                state = State.RUNNING;
+                newRun();
         }
+    }
+
+    // Run the select algorithm on the grid and visualize the solution
+    private void newRun() {
+        AlgorithmSolution solution = algorithmManager.runAlgorithm(grid);
+        visualizer.setAlgorithmSolution(solution);
+        visualizer.run();
     }
 
     public void reset() {
@@ -66,6 +73,6 @@ public class AppController implements AlgorithmVisualizer.Listener {
     // change to inactive state
     @Override
     public void onVisualizationComplete() {
-        state = State.INACTIVE;
+        state = State.COMPLETED;
     }
 }

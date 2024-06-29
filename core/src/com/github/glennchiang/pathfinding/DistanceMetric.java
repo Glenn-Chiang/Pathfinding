@@ -24,7 +24,7 @@ public enum DistanceMetric {
 
         @Override
         public int getDistance(int rowA, int colA, int rowB, int colB) {
-            return Math.abs(rowA - rowB) + Math.abs(colA - colB);
+            return 10 * Math.abs(rowA - rowB) + Math.abs(colA - colB);
         }
     };
 
