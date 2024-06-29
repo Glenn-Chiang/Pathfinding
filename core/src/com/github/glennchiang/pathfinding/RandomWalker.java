@@ -1,5 +1,9 @@
 package com.github.glennchiang.pathfinding;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 // Generate a grid with randomly placed obstacles
 // In the resultant grid, all empty cells will be connected to all other empty cells
 public class RandomWalker {
@@ -12,6 +16,8 @@ public class RandomWalker {
 
     // Random walker will iterate until this number of cells is cleared in the grid
     private final int requiredClearCount;
+
+    private final List<int[]> clearedCells = new ArrayList<>();
 
     public RandomWalker(int gridRows, int gridCols, int requiredClearCount) {
         this.gridRows = gridRows;
@@ -47,6 +53,7 @@ public class RandomWalker {
             // If cell is not already cleared, clear it and update clear count
             if (isObstacle(currentRow, currentCol)) {
                 clear(currentRow, currentCol);
+                clearedCells.add(new int[]{currentRow, currentCol});
                 clearCount++;
             }
         }
@@ -69,5 +76,9 @@ public class RandomWalker {
     // Mark the given position as empty
     private void clear(int row, int col) {
         grid[row][col] = true;
+    }
+
+    public List<int[]> getClearedCells() {
+        return new ArrayList<>(clearedCells);
     }
 }

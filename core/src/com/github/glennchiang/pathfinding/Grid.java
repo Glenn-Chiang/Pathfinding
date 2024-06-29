@@ -1,5 +1,7 @@
 package com.github.glennchiang.pathfinding;
 
+import java.util.List;
+
 // The grid on which the pathfinding algorithms will act
 // Stores obstacle positions
 public class Grid {
@@ -53,6 +55,19 @@ public class Grid {
                }
            }
        }
+
+       // Randomly select start and target cells from empty cells
+        List<int[]> emptyCells = walker.getClearedCells();
+        int[] startCell = getRandomCell(emptyCells);
+        setStart(startCell[0], startCell[1]);
+        emptyCells.remove(startCell); // Ensure that target cell is different from start cell
+        int[] targetCell = getRandomCell(emptyCells);
+        setTarget(targetCell[0], targetCell[1]);
+
+    }
+
+    private int[] getRandomCell(List<int[]> cells) {
+        return cells.get((int) (Math.random() * cells.size()));
     }
 
     public void setStart(int row, int col) {
