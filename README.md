@@ -33,10 +33,33 @@ A lower distance and visited count indicate a more optimal and efficient path.
 
 ## Concepts
 ### Pathfinding algorithms
+Pathfinding algorithms generally implement the following logic:
+- Maintain a set of open nodes (nodes to be explored)
+- Maintain a set of closed nodes (nodes that have been explored)
+- Add the start node to the set of open nodes
+- While there are open nodes:
+  - Use some kind of cost function to select the best node from the set of open nodes
+  - Set the selected node as the current node and add it to the set of closed nodes
+  - If the current node is the target node, the path has been found
+  - Otherwise, iterate over the neighbors of the current node. For each neighbor:
+    - If neighbor is closed, skip it
+    - Find the distance of the neighbor from the start node based on the distance of the current node from the start node
+    - If this distance is less than the neighbor's previous recorded distance from the start node:
+      - Update its distance from the start node to reflect the updated path
+    - If the neighbor is not yet added to the set of open nodes or if the neighbor's distance from its start node was updated:
+      - Set the current node as the neighbor's parent to reflect the updated path
+      - Add the neighbor to the set of open nodes, if not already added
+
+The key difference between the pathfinding algorithms lies in the heuristic function they use to evaluate the "cost" of a node, where a lower cost indicates a more optimal path.
+
+### Greedy BFS
+The Greedy best-first-search algorithm always selects the neighbor with the shortest heuristic distance to the target node. This approach allows it to often find paths faster than the other algorithms, but the path found may not be the optimal one.
+
+### Dijkstra's algorithm
+Dijkstra's algorithm always selects the neighbor with the shortest path so far from the start node. This approach guarantees that the optimal path will be found, but it tends to perform more slowly than the other algorithms as it explores every neighbor at each iteration.
+
 ### A Star
-### Greedy
-### Dijkstra
-### Random walker (grid generation)
+The A Star algorithm determines the cost of a node based on the sum of its heuristic distance to the target node and the distance of its shortest path from the start node. By combining the approaches of the Greedy algorithm and Dijkstra's algorithm, the A Star algorithm can find the optimal path (which Greedy may fail to) in a shorter time (compared to Dijkstra's algorithm). 
 
 ## Installation
 ### JAR file
