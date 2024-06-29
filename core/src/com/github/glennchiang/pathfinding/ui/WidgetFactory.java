@@ -1,9 +1,11 @@
 package com.github.glennchiang.pathfinding.ui;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
@@ -112,10 +114,12 @@ public class WidgetFactory {
     }
 
     private void setDefaultFont() {
-        // Store default font
-        BitmapFont font = new BitmapFont();
-        font.setColor(Color.WHITE);
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/consola.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.color = Color.WHITE;
+        BitmapFont font = generator.generateFont(parameter);
         skin.add("default", font);
+        generator.dispose();
     }
     
     private BitmapFont useFont() {

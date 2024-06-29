@@ -110,7 +110,7 @@ public class WidgetManager implements AlgorithmVisualizer.Listener {
         table.add(resetButton).width(80).height(30).left();
 
         // Add regenerate button
-        table.add(regenerateButton).width(120).fill().spaceLeft(16);
+        table.add(regenerateButton).width(160).fill().spaceLeft(16);
     }
 
     private void onToggleRun() {
