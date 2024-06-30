@@ -31,6 +31,16 @@ As the selected algorithm runs, 2 key metrics are updated in real time:
 
 A lower distance and visited count indicate a more optimal and efficient path.
 
+## Download
+1. Download the zip file from the [latest release](https://github.com/Glenn-Chiang/pathfinding-visualizer/releases)
+2. After extracting all files, the application can be run with `pathfinding.exe`
+
+## Build from source
+1. Clone this repo and navigate to the project root directory
+2. Run `./gradlew desktop:dist`
+3. The above command will generate a JAR file in the `desktop/build/libs/ folder`
+4. Run the JAR file by double-clicking it or with the command `java -jar path/to/jar-file.jar`
+
 ## Concepts
 ### Pathfinding algorithms
 Pathfinding algorithms generally implement the following logic:
@@ -61,9 +71,3 @@ Dijkstra's algorithm always selects the neighbor with the shortest path so far f
 ### A Star
 The A Star algorithm determines the cost of a node based on the sum of its heuristic distance to the target node and the distance of its shortest path from the start node. By combining the approaches of the Greedy algorithm and Dijkstra's algorithm, the A Star algorithm can find the optimal path (which Greedy may fail to) in a shorter time (compared to Dijkstra's algorithm). 
 
-## Installation
-### JAR file
-1. Clone this repo and navigate to the project root directory
-2. Run `./gradlew desktop:dist`
-3. The above command will generate a JAR file in the `desktop/build/libs/ folder`
-4. Run the JAR file by double-clicking it or with the command java -jar `path/to/jar-file.jar`
