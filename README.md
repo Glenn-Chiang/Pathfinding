@@ -74,9 +74,9 @@ Dijkstra's algorithm always selects the neighbor with the shortest path so far f
 
 ### A Star
 The A Star algorithm evaluates the cost of a node with the function `f_cost = g_cost + h_cost`, where:  
-`g_cost` = Distance of shortest path so far from the start node to this node
-`h_cost` = Heuristic distance from this node to the target node
-`f_cost` = Sum of g_cost and h_cost; the node with a lower f_cost will be selected
+`g_cost` = Distance of shortest path so far from the start node to this node  
+`h_cost` = Heuristic distance from this node to the target node  
+`f_cost` = Sum of g_cost and h_cost; the node with a lower f_cost will be selected  
 By using more information to guide its search, A Star is able to find the optimal path more accurately than Greedy and faster than Djikstra's algorithm.
 It is interesting to note, however, that Djikstra's algorithm is in fact a special case of A Star where the heuristic function always returns 0.
 
