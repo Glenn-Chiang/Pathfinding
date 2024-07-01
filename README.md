@@ -17,9 +17,13 @@ The grid can be regenerated to randomly place obstacles as well as the start and
 Start and target cells can also be manually set by the user by left-clicking and right-clicking respectively
 
 ### Distance metrics
-The user can select between 2 distance metrics to control the directions in which paths can be taken
-- Manhattan: Paths can only move up, down, left and right
-- Euclidean: Paths can move up, down, left, right and diagonally
+The user can select between 2 distance metrics to control how distance is measured as well as the possible directions that a path can take.
+- Euclidean:
+  - Euclidean distance is the shortest possible path between two points
+  - Paths can move up, down, left, right and diagonally
+- Manhattan:
+  - Manhattan distance is the sum of the horizontal and vertical distances between two points
+  - Paths can only move up, down, left and right
   
 ### Run, pause, reset
 The user can seamlessly run, pause and reset the visualizer at any time by toggling the corresponding buttons
@@ -60,14 +64,24 @@ Pathfinding algorithms generally implement the following logic:
       - Set the current node as the neighbor's parent to reflect the updated path
       - Add the neighbor to the set of open nodes, if not already added
 
-The key difference between the pathfinding algorithms lies in the heuristic function they use to evaluate the "cost" of a node, where a lower cost indicates a more optimal path.
+The key difference between the pathfinding algorithms lies in the function they use to evaluate the "cost" of a node, where a lower cost indicates a more optimal path.
 
 ### Greedy BFS
-The Greedy best-first-search algorithm always selects the neighbor with the shortest heuristic distance to the target node. This approach allows it to often find paths faster than the other algorithms, but the path found may not be the optimal one.
+The Greedy best-first-search algorithm always selects the neighbor with the shortest heuristic distance to the target node. A "heuristic" distance simply means that some kind of function, i.e. a heuristic, is used to approximate the actual distance, as we do not yet know whether there is actually a valid path from this node to the target node. In this project's implementation, the heuristic function used is either the manhattan or euclidean distance (can be toggled by the user) between the target node and the node in question assuming that there are no obstacles, which may not be the case. This approach often allows the Greedy algorithm to find paths faster (in fewer steps) than the other algorithms in simpler grids with fewer obstacles. However, the path found is not guaranteed to be the optimal one.
 
 ### Dijkstra's algorithm
-Dijkstra's algorithm always selects the neighbor with the shortest path so far from the start node. This approach guarantees that the optimal path will be found, but it tends to perform more slowly than the other algorithms as it explores every neighbor at each iteration.
+Dijkstra's algorithm always selects the neighbor with the shortest path so far from the start node. This approach guarantees that the optimal path will be found, but it tends to perform more slowly than the other algorithms as it explores every neighbor at each iteration without taking into account their heuristic distance to the target node.
 
 ### A Star
-The A Star algorithm determines the cost of a node based on the sum of its heuristic distance to the target node and the distance of its shortest path from the start node. By combining the approaches of the Greedy algorithm and Dijkstra's algorithm, the A Star algorithm can find the optimal path (which Greedy may fail to) in a shorter time (compared to Dijkstra's algorithm). 
+The A Star algorithm evaluates the cost of a node with the function `f_cost = g_cost + h_cost`, where:  
+`g_cost` = Distance of shortest path so far from the start node to this node
+`h_cost` = Heuristic distance from this node to the target node
+`f_cost` = Sum of g_cost and h_cost; the node with a lower f_cost will be selected
+By using more information to guide its search, A Star is able to find the optimal path more accurately than Greedy and faster than Djikstra's algorithm.
+It is interesting to note, however, that Djikstra's algorithm is in fact a special case of A Star where the heuristic function always returns 0.
+
+### Grid generation with random walker
+While the grid generation logic is entirely unrelated to any of the pathfinding algorithms, it may still be worth discussing the algorithm used, which is a classic random walker. Initially, the grid starts in a completely "filled" state, where every cell is marked as an obstacle. The random walker first selects a random starting cell and "walks" on that cell by marking it as empty. Then, the walker selects a random direction from the current cell and "walks" toward the neighboring cell in the selected direction, which is then also marked as empty. It repeats this process until a certain number of cells are empty, eventually resulting in an "empty space" within the grid where all empty cells are connected to one another, i.e. every empty cell is adjacent to at least one other empty cell.  
+
+Once the grid is generated, we can simply randomly select the start node and target node from the set of empty cells. Since all empty cells are connected to each other, we can be certain that there is always at least one possible path between the start node and target node.
 
